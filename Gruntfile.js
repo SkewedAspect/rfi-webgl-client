@@ -28,15 +28,26 @@ module.exports = function(grunt)
                     atBegin: true
                 }
             }
+        },
+        nodestatic: {
+            server: {
+                options: {
+                    port: 2695,
+                    base: 'client',
+                    keepalive: true
+                }
+            }
         }
     });
 
     // Grunt Tasks.
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-nodestatic');
 
     // Setup the build task.
     grunt.registerTask('build', ['less']);
+    grunt.registerTask('devel', ['nodestatic', 'watch']);
 }; // module.exports
 
 // ---------------------------------------------------------------------------------------------------------------------
