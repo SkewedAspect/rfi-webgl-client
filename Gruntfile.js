@@ -10,13 +10,22 @@ module.exports = function(grunt)
             less: ['client/less/**/*.less', 'client/widgets/**/*.less']
         },
         less: {
-            min: {
+            sleekspace: {
                 options: {
                     paths: ['client/vendor'],
                     compress: true
                 },
                 files: {
-                    'client/css/rfi-client.min.css': ['<%= project.less %>']
+                    'client/css/sleekspace.min.css': ['client/less/sleekspace/sleekspace.less']
+                }
+            },
+            main: {
+                options: {
+                    paths: ['client/vendor'],
+                    compress: true
+                },
+                files: {
+                    'client/css/rfi-client.min.css': ['<%= project.less %>', '!client/less/sleekspace/**/*.less']
                 }
             }
         },
@@ -29,12 +38,11 @@ module.exports = function(grunt)
                 }
             }
         },
-        nodestatic: {
+        connect: {
             server: {
                 options: {
                     port: 2695,
-                    base: 'client',
-                    keepalive: true
+                    base: 'client'
                 }
             }
         }
@@ -43,11 +51,11 @@ module.exports = function(grunt)
     // Grunt Tasks.
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-nodestatic');
+    grunt.loadNpmTasks('grunt-contrib-connect');
 
     // Setup the build task.
     grunt.registerTask('build', ['less']);
-    grunt.registerTask('devel', ['nodestatic', 'watch']);
+    grunt.registerTask('devel', ['connect', 'watch']);
 }; // module.exports
 
 // ---------------------------------------------------------------------------------------------------------------------
