@@ -7,25 +7,40 @@ module.exports = function(grunt)
     // Project configuration.
     grunt.initConfig({
         project: {
-            less: ['client/less/**/*.less', 'client/widgets/**/*.less']
+            js: ['src/**/*.js'],
+            less: ['static/less/**/*.less', 'src/widgets/**/*.less']
         },
         less: {
             sleekspace: {
                 options: {
-                    paths: ['client/vendor'],
+                    paths: ['static/vendor'],
                     compress: true
                 },
                 files: {
-                    'client/css/sleekspace.min.css': ['client/less/sleekspace/sleekspace.less']
+                    'static/css/sleekspace.min.css': ['static/less/sleekspace/sleekspace.less']
                 }
             },
             main: {
                 options: {
-                    paths: ['client/vendor'],
+                    paths: ['static/vendor'],
                     compress: true
                 },
                 files: {
-                    'client/css/rfi-client.min.css': ['<%= project.less %>', '!client/less/sleekspace/**/*.less']
+                    'static/css/rfi-client.min.css': ['<%= project.less %>', '!static/less/sleekspace/**/*.less']
+                }
+            }
+        },
+        copy: {
+            main: {
+                files: [
+                    { expand: true, cwd: 'src/widgets/', src:'**/*.html', dest:'static/partials/' }
+                ]
+            }
+        },
+        browserify: {
+            dist: {
+                files: {
+                    'static/js/rfi-client.js': ['<%= project.js %>']
                 }
             }
         },
@@ -36,13 +51,27 @@ module.exports = function(grunt)
                 options: {
                     atBegin: true
                 }
+            },
+            copy: {
+                files: ['src/widgets/**/*.html'],
+                tasks: ['copy'],
+                options: {
+                    atBegin: true
+                }
+            },
+            browserify: {
+                files: ['<%= project.js %>'],
+                tasks: ['browserify'],
+                options: {
+                    atBegin: true
+                }
             }
         },
         connect: {
             server: {
                 options: {
                     port: 2695,
-                    base: 'client'
+                    base: 'static'
                 }
             }
         }
@@ -52,6 +81,8 @@ module.exports = function(grunt)
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-connect');
+    grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-browserify');
 
     // Setup the build task.
     grunt.registerTask('build', ['less']);
