@@ -11,17 +11,32 @@ angular.module("rfi-client.widgets", []);
 
 // ---------------------------------------------------------------------------------------------------------------------
 
+//Services
+require('./services/socket');
+
+// Widgets
 require('./widgets/login/login');
 
 // ---------------------------------------------------------------------------------------------------------------------
 
 angular.module("rfi-client", [
-    'ngRoute',
+        'ngRoute',
 
-    'rfi-client.controllers',
-    'rfi-client.services',
-    'rfi-client.directives',
-    'rfi-client.widgets'
-]);
+        'rfi-client.controllers',
+        'rfi-client.services',
+        'rfi-client.directives',
+        'rfi-client.widgets'
+    ])
+    .run(['socket', function(socket)
+    {
+        socket.connect('http://localhost:8008');
+
+        socket.socket.on('connect', function()
+        {
+            console.log('connected!');
+        });
+
+        window.socket = socket;
+    }]);
 
 // ---------------------------------------------------------------------------------------------------------------------

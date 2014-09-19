@@ -14,26 +14,32 @@ button {
         color: white;
         background-color: rgba(128, 128, 128, .95);
     }
+
+    &.block {
+        display: block;
+        width: 100%;
+    }
+
+    &.primary {
+        color: @highlight;
+        border-bottom: 1px solid @highlight;
+    }
+
+    &.primary:hover {
+        color: lighten(@highlight, 15%);
+        border-bottom: 1px solid lighten(@highlight, 15%);
+    }
+
+    &.inverse {
+        color: @inverse;
+        border-bottom: 1px solid @inverse;
+    }
+
+    &.inverse:hover {
+        color: lighten(@inverse, 15%);
+        border-bottom: 1px solid lighten(@inverse, 15%);
+    }
 }
 
-button.primary {
-    color: @highlight;
-    border-bottom: 1px solid @highlight;
-}
-
-button.primary:hover {
-    color: lighten(@highlight, 15%);
-    border-bottom: 1px solid lighten(@highlight, 15%);
-}
-
-button.inverse {
-    color: @inverse;
-    border-bottom: 1px solid @inverse;
-}
-
-button.inverse:hover {
-    color: lighten(@inverse, 15%);
-    border-bottom: 1px solid lighten(@inverse, 15%);
-}
 
 //----------------------------------------------------------------------------------------------------------------------

@@ -1,15 +1,28 @@
 <div id="login" class="container center-block">
-    <form>
+    <form ng-hide="characters || successful">
         <div class="form-group">
             <label for="email">Email</label>
-            <input id="email" type="text">
+            <input id="email" type="text" ng-model="form.account">
         </div>
         <div class="form-group">
             <label for="password">Password</label>
-            <input id="password" type="password">
+            <input id="password" type="password" ng-model="form.password">
         </div>
         <div class="form-group">
-            <button class="primary">Login</button>
+            <button class="primary block" ng-click="login()">Login</button>
         </div>
     </form>
+
+    <div ng-show="characters && !successful">
+        <ul class="listbox">
+            <li ng-repeat="character in characters" ng-class="{ selected: selected.id == character.id }" ng-click="select(character)">
+                {{ character.name }}
+            </li>
+        </ul>
+        <button class="primary block" ng-click="submitChar()">Select Character</button>
+    </div>
+
+    <div ng-show="characters && successful">
+        <h1 class="center">Login Succeeded!</h1>
+    </div>
 </div>
