@@ -8,7 +8,7 @@ module.exports = function(grunt)
     grunt.initConfig({
         project: {
             js: ['src/**/*.js'],
-            less: ['static/less/**/*.less', 'src/widgets/**/*.less']
+            less: ['src/less/**/*.less', 'src/widgets/**/*.less']
         },
         less: {
             sleekspace: {
@@ -17,30 +17,33 @@ module.exports = function(grunt)
                     compress: true
                 },
                 files: {
-                    'static/css/sleekspace.min.css': ['static/less/sleekspace/sleekspace.less']
+                    'dist/css/sleekspace.min.css': ['src/less/sleekspace/sleekspace.less']
                 }
             },
             main: {
                 options: {
-                    paths: ['static/vendor'],
+                    paths: ['dist/vendor'],
                     compress: true
                 },
                 files: {
-                    'static/css/rfi-client.min.css': ['<%= project.less %>', '!static/less/sleekspace/**/*.less']
+                    'dist/css/rfi-client.min.css': ['<%= project.less %>', '!src/less/sleekspace/**/*.less']
                 }
             }
         },
         copy: {
             main: {
                 files: [
-                    { expand: true, cwd: 'src/widgets/', src:'**/*.html', dest:'static/partials/' }
+                    { expand: true, cwd: 'src/widgets/', src:'**/*.html', dest:'dist/partials/' },
+                    { expand: true, cwd: 'static/', src:'fonts/**/*.*', dest:'dist/' },
+                    { expand: true, cwd: 'static/', src:'vendor/**/*.*', dest:'dist/' },
+                    { expand: true, cwd: 'src/', src:'index.html', dest:'dist/' }
                 ]
             }
         },
         browserify: {
             dist: {
                 files: {
-                    'static/js/rfi-client.js': ['<%= project.js %>']
+                    'dist/js/rfi-client.js': ['<%= project.js %>']
                 }
             }
         },
@@ -71,7 +74,7 @@ module.exports = function(grunt)
             server: {
                 options: {
                     port: 2695,
-                    base: 'static'
+                    base: 'dist'
                 }
             }
         }

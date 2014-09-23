@@ -4,10 +4,7 @@
 .idea
 
 # build artifacts
-static/js/rfi-client.js
-static/css/rfi-client.min.css
-static/css/sleekspace.min.css
-static/partials
+dist
 
 # Node artifacts
 node_modules
