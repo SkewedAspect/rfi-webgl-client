@@ -15,6 +15,7 @@ angular.module("rfi-client.widgets", []);
 require('./services/socket');
 
 // Widgets
+require('./widgets/game/game');
 require('./widgets/login/login');
 
 // ---------------------------------------------------------------------------------------------------------------------
