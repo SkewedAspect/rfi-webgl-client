@@ -4,7 +4,7 @@
 // @module login.js
 // ---------------------------------------------------------------------------------------------------------------------
 
-function LoginController($scope, socket)
+function LoginController($scope, socket, characterService)
 {
     $scope.form = {};
     $scope.selected = {};
@@ -19,6 +19,10 @@ function LoginController($scope, socket)
             if(results.confirm)
             {
                 $scope.characters = results.characters;
+            }
+            else
+            {
+                console.error(results);
             } // end if
         });
     }; // end login
@@ -30,6 +34,8 @@ function LoginController($scope, socket)
 
     $scope.submitChar = function()
     {
+        characterService.character = $scope.selected;
+
         var query = {
             character:  $scope.selected.id
         };
@@ -46,6 +52,10 @@ function LoginController($scope, socket)
                     {
                         foo: "bar!"
                     });
+            }
+            else
+            {
+                console.error(results);
             } // end if
         });
     }; // end submitChar
@@ -62,6 +72,6 @@ angular.module('rfi-client.widgets').directive('login', function()
     }
 });
 
-angular.module('rfi-client.widgets').controller('LoginController', ['$scope', 'socket', LoginController]);
+angular.module('rfi-client.widgets').controller('LoginController', ['$scope', 'socket', 'CharacterService', LoginController]);
 
 // ---------------------------------------------------------------------------------------------------------------------
