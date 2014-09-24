@@ -12,6 +12,6 @@ function CharacterService()
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-angular.module('rfi-client.services').service('character', [CharacterService]);
+angular.module('rfi-client.services').service('CharacterService', [CharacterService]);
 
 // ---------------------------------------------------------------------------------------------------------------------
