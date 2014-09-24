@@ -4,7 +4,7 @@
 // @module login.js
 // ---------------------------------------------------------------------------------------------------------------------
 
-function LoginController($scope, socket, charService)
+function LoginController($scope, socket, charService, entityMan)
 {
     $scope.form = {};
     $scope.selected = {};
@@ -64,6 +64,12 @@ angular.module('rfi-client.widgets').directive('login', function()
     }
 });
 
-angular.module('rfi-client.widgets').controller('LoginController', ['$scope', 'socket', 'CharacterService', LoginController]);
+angular.module('rfi-client.widgets').controller('LoginController', [
+    '$scope',
+    'socket',
+    'CharacterService',
+    'EntityManager',    //TODO: Inject this in a more logical location once one exists!
+    LoginController
+]);
 
 // ---------------------------------------------------------------------------------------------------------------------
