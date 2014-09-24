@@ -43,7 +43,7 @@ module.exports = function(grunt)
         browserify: {
             dist: {
                 files: {
-                    'dist/js/rfi-client.js': ['<%= project.js %>']
+                    'dist/js/rfi-client.js': ['src/app.js', '<%= project.js %>']
                 }
             }
         },

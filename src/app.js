@@ -4,22 +4,6 @@
 // @module app.js
 // ---------------------------------------------------------------------------------------------------------------------
 
-angular.module("rfi-client.controllers", []);
-angular.module("rfi-client.services", []);
-angular.module("rfi-client.directives", []);
-angular.module("rfi-client.widgets", []);
-
-// ---------------------------------------------------------------------------------------------------------------------
-
-//Services
-require('./services/socket');
-
-// Widgets
-require('./widgets/game/game');
-require('./widgets/login/login');
-
-// ---------------------------------------------------------------------------------------------------------------------
-
 angular.module("rfi-client", [
         'ngRoute',
 
@@ -41,3 +25,11 @@ angular.module("rfi-client", [
     }]);
 
 // ---------------------------------------------------------------------------------------------------------------------
+
+angular.module("rfi-client.controllers", []);
+angular.module("rfi-client.services", []);
+angular.module("rfi-client.directives", []);
+angular.module("rfi-client.widgets", []);
+
+// ---------------------------------------------------------------------------------------------------------------------
+
