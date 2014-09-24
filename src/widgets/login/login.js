@@ -12,8 +12,6 @@ function LoginController($scope, socket, charService)
 
     $scope.login = function()
     {
-        console.log($scope.form);
-
         socket.emit('login', $scope.form, function(results)
         {
             if(results.confirm)
@@ -46,12 +44,6 @@ function LoginController($scope, socket, charService)
             {
                 console.log('logged in!');
                 $scope.successful = true;
-
-                //TODO: This is for testing purposes!
-                socket.emit('input',
-                    {
-                        foo: "bar!"
-                    });
             }
             else
             {
