@@ -12,17 +12,18 @@ function LoginController($scope, socket, charService, entityMan)
 
     $scope.login = function()
     {
-        socket.emit('login', $scope.form, function(results)
-        {
-            if(results.confirm)
+        socket.request('login', $scope.form)
+            .spread(function(results)
             {
-                $scope.characters = results.characters;
-            }
-            else
-            {
-                console.error(results);
-            } // end if
-        });
+                if(results.confirm)
+                {
+                    $scope.characters = results.characters;
+                }
+                else
+                {
+                    console.error(results);
+                } // end if
+            });
     }; // end login
 
     $scope.select = function(char)
@@ -38,18 +39,19 @@ function LoginController($scope, socket, charService, entityMan)
             character:  $scope.selected.id
         };
 
-        socket.emit('select character', query, function(results)
-        {
-            if(results.confirm)
+        socket.request('select character', query)
+            .spread(function(results)
             {
-                console.log('logged in!');
-                $scope.successful = true;
-            }
-            else
-            {
-                console.error(results);
-            } // end if
-        });
+                if(results.confirm)
+                {
+                    console.log('logged in!');
+                    $scope.successful = true;
+                }
+                else
+                {
+                    console.error(results);
+                } // end if
+            });
     }; // end submitChar
 } // end LoginController
 

@@ -15,10 +15,11 @@ SocketService.prototype.connect = function (url) {
 }; // end connect
 
 SocketService.prototype.request = function () {
-    return new Promise(function (resolve, reject) {
-            var self = this;
-            var args = Array.prototype.slice.call(arguments, 0);
+    var self = this;
+    var args = Array.prototype.slice.call(arguments, 0);
 
+    return new Promise(function (resolve, reject)
+        {
             var wrappedCB = function () {
                 var args = Array.prototype.slice.call(arguments, 0);
 
@@ -29,12 +30,12 @@ SocketService.prototype.request = function () {
                 }, 0);
             };
 
-            // Replace the callback with our wrapped callback.
-            args.splice(-1, 1, wrappedCB);
+            // Add our callback
+            args.push(wrappedCB);
 
             // Emit over socket.io
-            if (this.socket) {
-                this.socket.emit.apply(this.socket, args);
+            if (self.socket) {
+                self.socket.emit.apply(self.socket, args);
             } // end if
         }
     );
