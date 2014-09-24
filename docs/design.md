@@ -42,23 +42,23 @@ and should allow for reusable UI/logic components to be created.
 
 What follows is a list of services that we need, and a bit about their purpose and design.
 
-#### Authentication Service (`auth`)
+#### ~~Authentication Service (`auth`)~~
 
 This handles logging in to the server, and also maintains the state of our login.
 
-#### Account Service (`account`)
+#### ~~Account Service (`account`)~~
 
 Contains the account object sent to us by the server, as well as the logic for working with the account. (Most of this
 service will be implemented at a later time, once accounts are more interesting.) It is assumed any code needing the
 account will inject this service.
 
-#### Character Service (`character`)
+#### ~~Character Service (`character`)~~
 
 Contains the character object sent to us by the server, as well as the logic for working with the character. (Most of 
 this service will be implemented at a later time, once characters are more interesting.) It is assumed any code needing 
 the character will inject this service.
 
-#### Socket Service (`socket`)
+#### ~~Socket Service (`socket`)~~
 
 This service is designed to abstract away the fact that we're using socket.io as well as provide a fixed API in case we
 decide to change. It also handles wrapping callbacks in a `$timeout(..., 0)` as a form of doing a safe `$apply`.
@@ -140,13 +140,13 @@ fires off the correct events, with arguments.
 While there will need to be directives for multiple UI components, there are a few that we will need regardless of how
 we build the UI.
 
-#### Login Directive (`<login></login>`)
+#### ~~Login Directive (`<login></login>`)~~
 
 This is the login window. It's job is to allow a user to log in with a username and password, and then select their 
 character. (Right now we don't have much support for logging in without eventually selecting a character, but we could 
 change the flow to be more suited to that. If we do, this should just be the login window.)
 
-#### Three.js Directive (`<game></game>`)
+#### ~~Three.js Directive (`<game></game>`)~~
 
 This is the WebGL canvas and logic for wrapping up `three.js`. This should handle some of the messy bits, like window
 resize, etc.
