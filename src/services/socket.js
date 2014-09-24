@@ -55,7 +55,7 @@ SocketService.prototype.on = function(event, callback)
 
         // By wrapping this in `$timeout(0)`, we schedule this to be run on the next digest cycle,
         // and handle the need for `$apply`.
-        this.$timeout(function() { callback.apply(callback, args); }, 0);
+        self.$timeout(function() { callback.apply(callback, args); }, 0);
     };
 
     if(this.socket)
