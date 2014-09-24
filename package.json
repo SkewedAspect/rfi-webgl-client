@@ -10,7 +10,8 @@
   "author": "Christopher S. Case <chris.case@g33xnexus.com>",
   "license": "MIT",
   "dependencies": {
-    "bluebird": "~2.3.2"
+    "bluebird": "~2.3.2",
+    "lodash": "^2.4.1"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
