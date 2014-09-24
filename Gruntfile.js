@@ -36,6 +36,7 @@ module.exports = function(grunt)
                     { expand: true, cwd: 'src/widgets/', src:'**/*.html', dest:'dist/partials/' },
                     { expand: true, cwd: 'static/', src:'fonts/**/*.*', dest:'dist/' },
                     { expand: true, cwd: 'static/', src:'vendor/**/*.*', dest:'dist/' },
+                    { expand: true, cwd: 'static/', src:'models/**/*.*', dest:'dist/' },
                     { expand: true, cwd: 'src/', src:'index.html', dest:'dist/' }
                 ]
             }
