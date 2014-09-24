@@ -4,7 +4,7 @@
 // @module login.js
 // ---------------------------------------------------------------------------------------------------------------------
 
-function LoginController($scope, socket, characterService)
+function LoginController($scope, socket, charService)
 {
     $scope.form = {};
     $scope.selected = {};
@@ -34,7 +34,7 @@ function LoginController($scope, socket, characterService)
 
     $scope.submitChar = function()
     {
-        characterService.character = $scope.selected;
+        charService.character = $scope.selected;
 
         var query = {
             character:  $scope.selected.id
