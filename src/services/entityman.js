@@ -6,13 +6,20 @@
 
 function EntityManager(socket)
 {
-    var entities = {};
+    this.entities = {};
+    this.socket = socket;
+
+    // Because browserify can't support dynamic requires (https://github.com/substack/node-browserify/issues/377), we
+    // are forced to use literal strings, and build a map of the server's behavior string, and ours.
+    this.behaviors = {
+        './behaviors/ship': require('../behaviors/ship')
+    };
 
     // Listen for incoming messages
-    socket.on('create', this._handleCreate.bind(this));
-    socket.on('inhabit', this._handleInhabit.bind(this));
-    socket.on('update', this._handleUpdate.bind(this));
-    socket.on('destroy', this._handleDestroy.bind(this));
+    socket.on('create entity', this._handleCreate.bind(this));
+    socket.on('inhabit entity', this._handleInhabit.bind(this));
+    socket.on('update entity', this._handleUpdate.bind(this));
+    socket.on('destroy entity', this._handleDestroy.bind(this));
 } // end EntityManager
 
 /**
@@ -22,7 +29,15 @@ function EntityManager(socket)
  */
 EntityManager.prototype.create = function(entityDef)
 {
-    console.error('Not Implemented! EntityDef:', entityDef);
+    // We instantiate the behavior class as the entity. This way, internally, behaviors can simply use `this` to
+    // refer to the entity, as opposed to having to pass the entity into the behaviors.
+    var BehaviorClass = this.behaviors[entityDef.behavior];
+    var entity = new BehaviorClass(entityDef, this.socket);
+
+    // Add the newly created entity to our list of entities.
+    this.entities[entity.id] = entity;
+
+    console.debug('Entity added successfully!', entity);
 }; // end EntityManager
 
 /**
@@ -40,10 +55,15 @@ EntityManager.prototype.remove = function(entityID)
 // Event handlers
 // ---------------------------------------------------------------------------------------------------------------------
 
-EntityManager.prototype._handleCreate = function(message)
+EntityManager.prototype._handleCreate = function(entity)
 {
-
-    console.error('Not Implemented! Message:', message);
+    if(entity.id in this.entities) {
+        console.error('Attempting to add an entity("%s") that already exists. Ignoring message.', entity.id);
+    }
+    else
+    {
+        this.create(entity);
+    } // end if
 }; // end _handleCreate
 
 EntityManager.prototype._handleInhabit = function(message)
