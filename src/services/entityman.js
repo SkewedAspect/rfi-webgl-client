@@ -68,17 +68,17 @@ EntityManager.prototype._handleCreate = function(entity)
 
 EntityManager.prototype._handleInhabit = function(message)
 {
-    console.error('Not Implemented! Message:', message);
+    console.error('Inhabit Entity Not Implemented! Message:', message);
 }; // end _handleInhabit
 
 EntityManager.prototype._handleUpdate = function(message)
 {
-    console.error('Not Implemented! Message:', message);
+    console.error('Update Not Implemented! Message:', message);
 }; // end _handleUpdate
 
 EntityManager.prototype._handleDestroy = function(message)
 {
-    console.error('Not Implemented! Message:', message);
+    console.error('Destroy Not Implemented! Message:', message);
 }; // end _handleDestroy
 
 // ---------------------------------------------------------------------------------------------------------------------
