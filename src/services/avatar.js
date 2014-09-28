@@ -21,6 +21,6 @@ function AvatarServiceFactory($rootScope)
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-angular.module('rfi-client').service('AvatarService', ['$rootScope', AvatarServiceFactory]);
+angular.module('rfi-client.services').service('AvatarService', ['$rootScope', AvatarServiceFactory]);
 
 // ---------------------------------------------------------------------------------------------------------------------
