@@ -10,90 +10,73 @@ var Promise = require('bluebird');
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-function SocketService($timeout)
+function SocketServiceFactory($timeout)
 {
-    this.$timeout = $timeout;
-} // end SocketService
+    function SocketService(){}
 
-util.inherits(SocketService, EventEmitter);
+    util.inherits(SocketService, EventEmitter);
 
-SocketService.prototype.connect = function(url)
-{
-    this.socket = io(url);
-
-    // We only have to worry about events from the server.
-    this.socket.on('event', this._handleEvent.bind(this));
-}; // end connect
-
-SocketService.prototype.event = function()
-{
-    var args = Array.prototype.slice.call(arguments);
-    args.unshift('event');
-
-    if(this.socket)
+    SocketService.prototype.connect = function(url)
     {
-        this.socket.emit.apply(this.socket, arguments);
-    } // end if
-};
+        this.socket = io(url);
 
-SocketService.prototype.request = function()
-{
-    var self = this;
-    var args = Array.prototype.slice.call(arguments);
-    args.unshift('request');
+        // We only have to worry about events from the server.
+        this.socket.on('event', this._handleEvent.bind(this));
+    }; // end connect
 
-    return new Promise(function(resolve, reject)
+    SocketService.prototype.event = function()
+    {
+        var args = Array.prototype.slice.call(arguments);
+        args.unshift('event');
+
+        if(this.socket)
         {
-            var wrappedCB = function()
-            {
-                var args = Array.prototype.slice.call(arguments, 0);
+            this.socket.emit.apply(this.socket, arguments);
+        } // end if
+    };
 
-                // By wrapping this in `$timeout(0)`, we schedule this to be run on the next digest cycle,
-                // and handle the need for `$apply`.
-                self.$timeout(function()
+    SocketService.prototype.request = function()
+    {
+        var self = this;
+        var args = Array.prototype.slice.call(arguments);
+        args.unshift('request');
+
+        return new Promise(function(resolve, reject)
+            {
+                var wrappedCB = function()
                 {
-                    resolve(args);
-                }, 0);
-            };
+                    var args = Array.prototype.slice.call(arguments, 0);
 
-            // Add our callback
-            args.push(wrappedCB);
+                    // By wrapping this in `$timeout(0)`, we schedule this to be run on the next digest cycle,
+                    // and handle the need for `$apply`.
+                    $timeout(function()
+                    {
+                        resolve(args);
+                    }, 0);
+                };
 
-            // Emit over socket.io
-            if(self.socket)
-            {
-                self.socket.emit.apply(self.socket, args);
-            } // end if
-        }
-    );
-}; // end emit
+                // Add our callback
+                args.push(wrappedCB);
 
-SocketService.prototype._handleEvent = function()
-{
-    this.emit.apply(this, arguments);
-}; // end _handleEvent
+                // Emit over socket.io
+                if(self.socket)
+                {
+                    self.socket.emit.apply(self.socket, args);
+                } // end if
+            }
+        );
+    }; // end emit
 
-/*
- SocketService.prototype.on = function (event, callback) {
- var self = this;
- var wrappedCB = function () {
- var args = Array.prototype.slice.call(arguments, 0);
+    SocketService.prototype._handleEvent = function()
+    {
+        this.emit.apply(this, arguments);
+    }; // end _handleEvent
 
- // By wrapping this in `$timeout(0)`, we schedule this to be run on the next digest cycle,
- // and handle the need for `$apply`.
- self.$timeout(function () {
- callback.apply(callback, args);
- }, 0);
- };
-
- if (this.socket) {
- this.socket.on.apply(this.socket, [event, wrappedCB]);
- } // end if
- }; // end on
- */
+    return new SocketService();
+} // end SocketServiceFactory
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-angular.module('rfi-client.services').service('socket', ['$timeout', SocketService]);
+angular.module('rfi-client.services').service('SocketService', ['$timeout', SocketServiceFactory]);
 
 // ---------------------------------------------------------------------------------------------------------------------

@@ -68,7 +68,7 @@ angular.module('rfi-client.widgets').directive('login', function()
 
 angular.module('rfi-client.widgets').controller('LoginController', [
     '$scope',
-    'socket',
+    'SocketService',
     'CharacterService',
     'EntityManager',    //TODO: Inject this in a more logical location once one exists!
     LoginController

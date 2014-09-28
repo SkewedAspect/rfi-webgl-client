@@ -38,6 +38,8 @@ EntityManager.prototype.create = function(entityDef)
     this.entities[entity.id] = entity;
 
     console.debug('Entity added successfully!', entity);
+
+    return entity;
 }; // end EntityManager
 
 /**
@@ -83,6 +85,6 @@ EntityManager.prototype._handleDestroy = function(message)
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-angular.module('rfi-client.services').service('EntityManager', ['socket', EntityManager]);
+angular.module('rfi-client.services').service('EntityManager', ['SocketService', EntityManager]);
 
 // ---------------------------------------------------------------------------------------------------------------------

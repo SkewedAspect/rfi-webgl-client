@@ -7,8 +7,7 @@
 function CharacterService()
 {
     this.character = undefined;
-}
-
+} // end CharacterService
 
 // ---------------------------------------------------------------------------------------------------------------------
 

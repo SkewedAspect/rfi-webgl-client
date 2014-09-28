@@ -16,7 +16,7 @@ angular.module("rfi-client", [
         'rfi-client.directives',
         'rfi-client.widgets'
     ])
-    .run(['socket', function(socket)
+    .run(['SocketService', function(socket)
     {
         socket.connect('http://localhost:8008');
 
