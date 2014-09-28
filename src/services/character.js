@@ -4,13 +4,18 @@
 // @module character.js
 // ---------------------------------------------------------------------------------------------------------------------
 
-function CharacterService()
+function CharacterServiceFactory()
 {
-    this.character = undefined;
-} // end CharacterService
+    function CharacterService()
+    {
+        this.character = undefined;
+    } // end CharacterService
+
+    return new CharacterService();
+} // end CharacterServiceFactory
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-angular.module('rfi-client.services').service('CharacterService', [CharacterService]);
+angular.module('rfi-client.services').service('CharacterService', [CharacterServiceFactory]);
 
 // ---------------------------------------------------------------------------------------------------------------------
