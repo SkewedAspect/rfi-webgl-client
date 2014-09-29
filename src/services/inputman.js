@@ -14,7 +14,7 @@ function InputManagerFactory($rootScope)
     {
         this.commands = [];
 
-        $rootScope.on('config reload', this.reloadConfig.bind(this));
+        $rootScope.$on('config reload', this.reloadConfig.bind(this));
     } // end InputManager
 
     InputManager.prototype.reloadConfig = function()
@@ -22,30 +22,19 @@ function InputManagerFactory($rootScope)
         //TODO: Reload config
     }; // end reloadConfig
 
-    InputManager.prototype.listenForCommand = function()
+    InputManager.prototype.onCommand = function(command, callback)
     {
-        var args = Array.prototype.slice(arguments);
-        var command = args[0];
-        args = args.slice(1);
-
+        // Register the command if it doesn't already exist in our list of commands.
         if(this.commands.indexOf(command) === -1)
         {
             this.commands.push(command);
         } // end if
 
-        return new Promise(function(resolve)
+        return $rootScope.$on(command, function()
         {
-            $rootScope.on(command, function()
-            {
-                resolve(args);
-            });
+            callback.apply(callback, arguments);
         });
-    }; // end listenForCommand
-
-    InputManager.prototype.getAllCommands = function()
-    {
-        return this.commands;
-    }; // end getAllCommands
+    }; // end onCommand
 
     return new InputManager();
 } // end InputManagerFactory
