@@ -13,6 +13,6 @@ function ConfigurationManagerFactory($rootScope)
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-angular.module('rfi-client.manager').service('ConfigurationManager', ['$rootScope', ConfigurationManagerFactory]);
+angular.module('rfi-client.services').service('ConfigurationManager', ['$rootScope', ConfigurationManagerFactory]);
 
 // ---------------------------------------------------------------------------------------------------------------------
