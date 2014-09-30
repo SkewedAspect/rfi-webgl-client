@@ -32,6 +32,9 @@ angular.module("rfi-client", [
         Promise.setScheduler(function(fn) {
             $rootScope.$evalAsync(fn);
         });
+    }])
+    .run(['InputManager', function(inputMan)
+    {
     }]);
 
 // ---------------------------------------------------------------------------------------------------------------------

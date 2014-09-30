@@ -37,8 +37,7 @@ function KeybindingServiceFactory($window, $timeout)
             newBinding = {
                 keys: binding,
                 on_keydown: this._wrapCallback(callback),
-                is_exclusive: true,
-                is_solitary: true
+                is_exclusive: false
             };
         }
         else if(_.isPlainObject(binding))
@@ -57,17 +56,13 @@ function KeybindingServiceFactory($window, $timeout)
                 newBinding[key] = newValue || value;
             });
 
+            /*
             // We default 'is_exclusive' to true.
             if(newBinding['is_exclusive'] === undefined)
             {
                 newBinding['is_exclusive'] = true;
             } // end if
-
-            // We default 'is_solitary' to true.
-            if(newBinding['is_solitary'] === undefined)
-            {
-                newBinding['is_solitary'] = true;
-            } // end if
+            */
         }
         else
         {
