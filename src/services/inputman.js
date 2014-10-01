@@ -51,6 +51,7 @@ function InputManagerFactory($rootScope, keySvc)
 
         //TODO: Really get the config from somewhere.
         var config = {
+            /*
             keyboard: {
                 'w': {
                     command: 'pitch',
@@ -80,6 +81,7 @@ function InputManagerFactory($rootScope, keySvc)
                     value: ['arg1', 0.99, true]
                 }
             }
+            */
         };
 
         // Keyboard support

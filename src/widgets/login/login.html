@@ -14,11 +14,15 @@
     </form>
 
     <div ng-show="characters && !successful">
-        <ul class="listbox">
-            <li ng-repeat="character in characters" ng-class="{ selected: selected.id == character.id }" ng-click="select(character)">
+        <div class="list-group">
+            <a href="#" class="list-group-item"
+               ng-repeat="character in characters"
+               ng-class="{ active: selected.id == character.id }"
+               ng-click="select(character)">
                 {{ character.name }}
-            </li>
-        </ul>
+            </a>
+        </div>
+
         <button class="primary block" ng-click="submitChar()">Select Character</button>
     </div>
 
