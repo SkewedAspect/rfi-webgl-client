@@ -15,10 +15,10 @@ function InputManagerFactory($rootScope, keySvc)
     {
         this.commands = [];
 
-        $rootScope.$on('config reload', this.reloadConfig.bind(this));
+        $rootScope.$on('config load', this.reloadConfig.bind(this));
 
         //TODO: remove once the config service actually fires the right event
-        this.reloadConfig();
+        this.loadConfig();
     } // end InputManager
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -45,7 +45,7 @@ function InputManagerFactory($rootScope, keySvc)
 
     // -----------------------------------------------------------------------------------------------------------------
 
-    InputManager.prototype.reloadConfig = function()
+    InputManager.prototype.loadConfig = function()
     {
         var self = this;
 
