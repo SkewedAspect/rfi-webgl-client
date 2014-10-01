@@ -4,7 +4,7 @@
 // @module login.js
 // ---------------------------------------------------------------------------------------------------------------------
 
-function LoginController($scope, socket, charService, entityMan)
+function LoginController($scope, socket, charService, entityMan, confMan)
 {
     $scope.form = {};
     $scope.selected = {};
@@ -46,6 +46,7 @@ function LoginController($scope, socket, charService, entityMan)
                 {
                     console.log('logged in!');
                     $scope.successful = true;
+                    confMan.getConfigs();
                 }
                 else
                 {
@@ -71,6 +72,7 @@ angular.module('rfi-client.widgets').controller('LoginController', [
     'SocketService',
     'CharacterService',
     'EntityManager',    //TODO: Inject this in a more logical location once one exists!
+    'ConfigurationManager',
     LoginController
 ]);
 
