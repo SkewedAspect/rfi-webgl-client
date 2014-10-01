@@ -4,6 +4,10 @@
 // @module configman.js
 // ---------------------------------------------------------------------------------------------------------------------
 
+var defaultConfig = require('../config/default_config');
+
+// ---------------------------------------------------------------------------------------------------------------------
+
 function ConfigurationManagerFactory($rootScope, socket, local)
 {
     function ConfigurationManager()
@@ -30,7 +34,7 @@ function ConfigurationManagerFactory($rootScope, socket, local)
                     }
                     else
                     {
-                        // TODO: else - use client default config
+                        self.setConfig();
                     } // end if
                 } // end if
             }); // end spread
@@ -38,9 +42,18 @@ function ConfigurationManagerFactory($rootScope, socket, local)
 
     ConfigurationManager.prototype.setConfig = function(configID)
     {
-        this.activeConfig = _.find(this.configs, { id: configID });
+        if(!configID && this.configs.length === 0)
+        {
+            this.configs = [defaultConfig];
+            this.activeConfig = this.configs[0];
+        }
+        else
+        {
+            this.activeConfig = _.find(this.configs, { id: configID });
+        } // end if
+
         $rootScope.$broadcast('config load');
-    };
+    }; // end setConfig
 
     return new ConfigurationManager();
 } // end ConfigurationManagerFactory
