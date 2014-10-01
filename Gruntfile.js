@@ -13,7 +13,7 @@ module.exports = function(grunt)
         less: {
             sleekspace: {
                 options: {
-                    paths: ['static/vendor'],
+                    paths: ['node_modules/bootstrap/less'],
                     compress: true
                 },
                 files: {
