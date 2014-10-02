@@ -4,6 +4,7 @@
 // @module configman.js
 // ---------------------------------------------------------------------------------------------------------------------
 
+var _ = require('lodash');
 var defaultConfig = require('../config/default_config');
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -20,21 +21,24 @@ function ConfigurationManagerFactory($rootScope, socket, local)
         var self = this;
         socket.request('get config')
             .spread(function(results) {
-                self.configs = results;
-
-                var defaultConfigID = self.configStore.get('default');
-                if (defaultConfigID) {
-                    self.setConfig(defaultConfigID);
-                }
-                else
+                if(results.confirm)
                 {
-                    if (results[0])
-                    {
-                        self.setConfig(results[0].id);
+                    self.configs = results.configs;
+
+                    var defaultConfigID = self.configStore.get('default');
+                    if (defaultConfigID) {
+                        self.setConfig(defaultConfigID);
                     }
                     else
                     {
-                        self.setConfig();
+                        if (results[0])
+                        {
+                            self.setConfig(results[0].id);
+                        }
+                        else
+                        {
+                            self.setConfig();
+                        } // end if
                     } // end if
                 } // end if
             }); // end spread
