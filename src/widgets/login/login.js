@@ -63,7 +63,8 @@ angular.module('rfi-client.widgets').directive('login', function()
     return {
         restrict: 'E',
         templateUrl: '/partials/login/login.html',
-        controller: 'LoginController'
+        controller: 'LoginController',
+        replace: true
     }
 });
 

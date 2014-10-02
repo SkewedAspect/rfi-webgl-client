@@ -1,5 +1,5 @@
 // ---------------------------------------------------------------------------------------------------------------------
-// Keybinding Service
+// KeyBinding Service
 //
 // @module keybinding.js
 // ---------------------------------------------------------------------------------------------------------------------
@@ -8,14 +8,27 @@ var _ = require('lodash');
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-function KeybindingServiceFactory($window, $timeout)
+function KeyBindingServiceFactory($document, $window, $timeout)
 {
-    function KeybindingService()
+    function KeyBindingService()
     {
-        this.listener = new $window.keypress.Listener();
-    } // end KeybindingService
+        this.initialized = false;
+    } // end KeyBindingService
 
-    KeybindingService.prototype._wrapCallback = function(callback)
+    KeyBindingService.prototype.init = function(elem)
+    {
+        console.log('binding to element:', elem);
+
+        // Setup the listener with the right element
+        this.listener = new $window.keypress.Listener(elem, {
+            prevent_repeat: true,
+            is_exclusive: false //true
+        });
+
+        this.initialized = true
+    }; // end init
+
+    KeyBindingService.prototype._wrapCallback = function(callback)
     {
         return function()
         {
@@ -27,8 +40,14 @@ function KeybindingServiceFactory($window, $timeout)
         }
     }; // end _wrapCallback
 
-    KeybindingService.prototype.register = function(binding, callback)
+    KeyBindingService.prototype.register = function(binding, callback)
     {
+        if(!this.listener)
+        {
+            console.warn("Attempted to register keys before keybinding service has been initialized!");
+            return
+        } // end if
+
         callback = callback || function(){};
         var newBinding = {};
 
@@ -36,8 +55,7 @@ function KeybindingServiceFactory($window, $timeout)
         {
             newBinding = {
                 keys: binding,
-                on_keydown: this._wrapCallback(callback),
-                is_exclusive: false
+                on_keydown: this._wrapCallback(callback)
             };
         }
         else if(_.isPlainObject(binding))
@@ -55,14 +73,6 @@ function KeybindingServiceFactory($window, $timeout)
 
                 newBinding[key] = newValue || value;
             });
-
-            /*
-            // We default 'is_exclusive' to true.
-            if(newBinding['is_exclusive'] === undefined)
-            {
-                newBinding['is_exclusive'] = true;
-            } // end if
-            */
         }
         else
         {
@@ -76,16 +86,27 @@ function KeybindingServiceFactory($window, $timeout)
         return function(){ self.listener.unregister_combo(registerHandle); };
     }; // end register
 
-    KeybindingService.prototype.clear = function()
+    KeyBindingService.prototype.clear = function()
     {
+        if(!this.listener)
+        {
+            console.warn("Attempted to clear key bindings before keybinding service has been initialized!");
+            return
+        } // end if
+
         this.listener.reset();
     }; // end clear
 
-    return new KeybindingService();
-} // end KeybindingServiceFactory
+    return new KeyBindingService();
+} // end KeyBindingServiceFactory
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-angular.module('rfi-client.services').service('KeybindingService', ['$window', '$timeout', KeybindingServiceFactory]);
+angular.module('rfi-client.services').service('KeyBindingService', [
+    '$document',
+    '$window',
+    '$timeout',
+    KeyBindingServiceFactory
+]);
 
 // ---------------------------------------------------------------------------------------------------------------------

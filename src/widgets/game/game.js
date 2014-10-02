@@ -7,7 +7,7 @@
 var _ = require('lodash');
 var Promise = require('bluebird');
 
-function GameCanvasFactory($window, Loader)
+function GameCanvasFactory($window, Loader, keySvc)
 {
     function GameCanvasController()
     {
@@ -79,6 +79,9 @@ function GameCanvasFactory($window, Loader)
 
     function GameCanvasLink(scope, elem, attrs, controller)
     {
+        // Setup the keybinding service
+        keySvc.init(elem[0]);
+
         // Prepare the dom element.
         elem.addClass('game-canvas');
         elem.append(controller.renderer.domElement);
@@ -138,12 +141,19 @@ function GameCanvasFactory($window, Loader)
     return {
         restrict: 'E',
         link: GameCanvasLink,
-        controller: GameCanvasController
+        template: '<div id="game" contenteditable="true"></div>',
+        controller: GameCanvasController,
+        replace: true
     }
 } // end GameCanvasFactory
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-angular.module('rfi-client.widgets').directive('gameCanvas', ['$window', 'Loader', GameCanvasFactory]);
+angular.module('rfi-client.widgets').directive('gameCanvas', [
+    '$window',
+    'Loader',
+    'KeyBindingService',
+    GameCanvasFactory
+]);
 
 // ---------------------------------------------------------------------------------------------------------------------

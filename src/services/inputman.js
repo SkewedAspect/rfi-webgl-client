@@ -9,16 +9,13 @@ var Promise = require('bluebird');
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-function InputManagerFactory($rootScope, keySvc)
+function InputManagerFactory($rootScope, configMan, keySvc)
 {
     function InputManager()
     {
         this.commands = [];
 
         $rootScope.$on('config load', this.reloadConfig.bind(this));
-
-        //TODO: remove once the config service actually fires the right event
-        this.loadConfig();
     } // end InputManager
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -45,46 +42,19 @@ function InputManagerFactory($rootScope, keySvc)
 
     // -----------------------------------------------------------------------------------------------------------------
 
-    InputManager.prototype.loadConfig = function()
+    InputManager.prototype.reloadConfig = function()
     {
         var self = this;
+        var config = configMan.activeConfig;
 
-        //TODO: Really get the config from somewhere.
-        var config = {
-            /*
-            keyboard: {
-                'w': {
-                    command: 'pitch',
-                    value: -0.5
-                },
-                's': {
-                    command: 'pitch',
-                    value: 0.5
-                },
-                'a': {
-                    command: 'heading',
-                    value: -0.5
-                },
-                'd': {
-                    command: 'heading',
-                    value: -0.5
-                },
-                'c': {
-                    command: 'crouch',
-                    toggle: true
-                },
-                'space': {
-                    command: 'fire'
-                },
-                'f1': {
-                    command: 'test',
-                    value: ['arg1', 0.99, true]
-                }
-            }
-            */
-        };
-
+        //--------------------------------------------------------------------------------------------------------------
         // Keyboard support
+        //--------------------------------------------------------------------------------------------------------------
+
+        // Clear existing bindings
+        keySvc.clear();
+
+        // Now, we bind based on our config
         _.forIn(config.keyboard, function(cmdConf, keys)
         {
             if(cmdConf.toggle)
@@ -96,6 +66,8 @@ function InputManagerFactory($rootScope, keySvc)
                 keySvc.register(keys, self._buildMomentary(cmdConf.command, cmdConf.value));
             } // end if
         });
+
+        //--------------------------------------------------------------------------------------------------------------
     }; // end reloadConfig
 
     InputManager.prototype.onCommand = function(command, callback)
@@ -121,7 +93,8 @@ function InputManagerFactory($rootScope, keySvc)
 
 angular.module('rfi-client.services').service('InputManager', [
     '$rootScope',
-    'KeybindingService',
+    'ConfigurationManager',
+    'KeyBindingService',
     InputManagerFactory
 ]);
 
