@@ -13,7 +13,7 @@ function EntityManagerFactory(socket, avatar)
         // Because browserify can't support dynamic requires (https://github.com/substack/node-browserify/issues/377), we
         // are forced to use literal strings, and build a map of the server's behavior string, and ours.
         this.behaviors = {
-            './behaviors/ship': require('../behaviors/ship')
+            './behaviors/ship': require('./behaviors/ship')
         };
 
         // Listen for incoming messages
