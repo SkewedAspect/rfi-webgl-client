@@ -59,6 +59,16 @@ function ConfigurationManagerFactory($rootScope, socket, local)
         $rootScope.$broadcast('config load');
     }; // end setConfig
 
+    ConfigurationManager.prototype.saveConfig = function(newConfig)
+    {
+        socket.request('save config', newConfig)
+            .then(function(response)
+            {
+                // TODO: handle errors here
+                $rootScope.$broadcast('config saved', response.id);
+            });
+    };
+
     return new ConfigurationManager();
 } // end ConfigurationManagerFactory
 
