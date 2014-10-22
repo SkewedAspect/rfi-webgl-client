@@ -4,11 +4,12 @@
 // @module login.js
 // ---------------------------------------------------------------------------------------------------------------------
 
-function LoginController($scope, socket, charService, entityMan, confMan)
+function LoginController($scope, $timeout, socket, charService, entityMan, confMan)
 {
     $scope.form = {};
     $scope.selected = {};
     $scope.successful = false;
+    $scope.hideWindow = false;
 
     $scope.login = function()
     {
@@ -46,6 +47,12 @@ function LoginController($scope, socket, charService, entityMan, confMan)
                 {
                     console.log('logged in!');
                     $scope.successful = true;
+
+                    $timeout(function()
+                    {
+                        $scope.hideWindow = true;
+                    }, 2000);
+
                     confMan.getConfigs();
                 }
                 else
@@ -70,6 +77,7 @@ angular.module('rfi-client.widgets').directive('login', function()
 
 angular.module('rfi-client.widgets').controller('LoginController', [
     '$scope',
+    '$timeout',
     'SocketService',
     'CharacterService',
     'EntityManager',    //TODO: Inject this in a more logical location once one exists!
