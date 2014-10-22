@@ -27,12 +27,13 @@ function LocalStorageSericeFactory()
         } // end if
     }; // end get
 
-    // -----------------------------------------------------------------------------------------------------------------
-
     LocalStore.prototype.set = function(key, object)
     {
         localStorage[this.path + key] = angular.toJson(object);
     }; // end set
+
+    // -----------------------------------------------------------------------------------------------------------------
+
     function LocalStorageService()
     {
         this.stores = {};
