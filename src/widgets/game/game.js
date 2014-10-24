@@ -5,7 +5,7 @@
 // ---------------------------------------------------------------------------------------------------------------------
 /* global angular: true */
 
-function GameCanvasFactory($window, $timeout, babylon, Loader, keySvc)
+function GameCanvasFactory($window, $timeout, babylon, sceneMan, keySvc)
 {
     var isSupported = babylon.Engine.isSupported();
 
@@ -14,57 +14,51 @@ function GameCanvasFactory($window, $timeout, babylon, Loader, keySvc)
         $scope.isSupported = isSupported;
     } // end GameCanvasController
 
+    GameCanvasController.prototype.canvasReady = function()
+    {
+        //TODO: This needs to be part of the scene we load. But, for now, hard-code this.
+        this.sun = new babylon.PointLight("Omni0", new babylon.Vector3(60, 100, 10), sceneMan.currentScene);
+    }; // end canvasReady
+
     // -----------------------------------------------------------------------------------------------------------------
 
-    function GameCanvasLink(scope, elem)//, attrs, controller
+    function GameCanvasLink(scope, elem, attrs, controller)
     {
-        var canvas, engine, loader;
+        var canvas, engine;
 
         if(isSupported)
         {
             console.log("Setting up canvas.");
 
             canvas = elem.children('canvas');
-            console.log('canvas:', canvas);
 
             $timeout(function()
             {
-                engine = new babylon.Engine(canvas[0], true);
-
-                loader = new Loader(engine);
-
-                /*
-                loader.loadScene("scene.babylon")
+                sceneMan.setRenderTarget(canvas[0]);
+                sceneMan.loadScene()
                     .then(function()
-                        {
-                            return loader.loadMesh("models/ares/ares.babylon");
-                        });
-                */
-                loader.loadMesh("models/ares/ares.babylon")
+                    {
+                        return sceneMan.loadMesh("models/ares/ares.babylon");
+                    })
                     .then(function()
-                        {
-                            return loader.createSkybox("models/stars/purplenebula_2048");
-                        })
-                //loader.createSkybox("models/stars/purplenebula_2048")
+                    {
+                        return sceneMan.createSkybox("models/stars/purplenebula_2048");
+                    })
                     .then(function()
-                        {
-                            console.log("Loading completed.");
+                    {
+                        console.log("Loading completed.");
+                        sceneMan.startEngine();
 
-                            loader.startShit(canvas[0], function(camParams)
-                            {
-                                scope.$apply(function()
-                                {
-                                    scope.camera = camParams;
-                                });
-                            });
-                        },
-                        function(error)
-                        {
-                            console.error("Error loading:", error);
-                        });
+                        // Let the controller know that the canvas is ready
+                        controller.canvasReady();
+                    },
+                    function(error)
+                    {
+                        console.error("Error loading:", error);
+                    });
 
                 // Listen for window resize events.
-                $window.addEventListener('resize', engine.resize.bind(engine));
+                $window.addEventListener('resize', sceneMan.engine.resize.bind(engine));
             });
         } // end if
 
@@ -73,13 +67,6 @@ function GameCanvasFactory($window, $timeout, babylon, Loader, keySvc)
 
         // Prepare the dom element.
         elem.addClass('game-canvas');
-        //elem.append(controller.renderer.domElement);
-
-        // Call resize to get the correct initial size.
-        //setTimeout(controller.resize.bind(controller, elem), 250);
-
-        // Kick off the render loop.
-        //controller.render();
     } // end GameCanvasLink
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -88,8 +75,8 @@ function GameCanvasFactory($window, $timeout, babylon, Loader, keySvc)
         restrict: 'E',
         scope: true,
         link: GameCanvasLink,
-        template: '<div id="game" contenteditable="true"><canvas></canvas>' +
-            '<div class="stats">Camera: alpha = {{ camera.alpha }}; beta = {{ camera.beta }}; radius = {{ camera.radius }}</div>' +
+        template: '<div id="game" contenteditable="true">' +
+            '<canvas></canvas>' +
             '<div class="error" ng-if="!isSupported">Your browser does not support WebGL! Go home!</div></div>',
         controller: ['$scope', GameCanvasController],
         replace: true
@@ -102,7 +89,7 @@ angular.module('rfi-client.widgets').directive('gameCanvas', [
     '$window',
     '$timeout',
     'babylon',
-    'Loader',
+    'SceneManager',
     'KeyBindingService',
     GameCanvasFactory
 ]);
