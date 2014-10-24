@@ -48,6 +48,12 @@ module.exports = function(grunt)
                 }
             }
         },
+        clean: ["dist"],
+        karma: {
+            unit: {
+                configFile: 'karma-config.js'
+            }
+        },
         watch: {
             less: {
                 files: ['<%= project.less %>'],
@@ -87,10 +93,13 @@ module.exports = function(grunt)
     grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-browserify');
+    grunt.loadNpmTasks('grunt-karma');
+    grunt.loadNpmTasks('grunt-contrib-clean');
 
     // Setup the build task.
-    grunt.registerTask('build', ['less']);
-    grunt.registerTask('devel', ['connect', 'watch']);
+    grunt.registerTask('build', ['clean', 'less', 'copy', 'browserify']);
+    grunt.registerTask('test', ['build', 'karma:unit']);
+    grunt.registerTask('devel', ['clean', 'connect', 'watch']);
 }; // module.exports
 
 // ---------------------------------------------------------------------------------------------------------------------
