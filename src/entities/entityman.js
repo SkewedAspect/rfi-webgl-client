@@ -8,16 +8,15 @@ var Promise = require('bluebird');
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-function EntityManagerFactory(socket, avatar, sceneMan)
+function EntityManagerFactory($injector, socket, avatar, sceneMan)
 {
     function EntityManager()
     {
         this.entities = {};
 
-        // Because browserify can't support dynamic requires (https://github.com/substack/node-browserify/issues/377), we
-        // are forced to use literal strings, and build a map of the server's behavior string, and ours.
+        // Mapping between server name and our factory name
         this.behaviors = {
-            './behaviors/ship': require('./behaviors/ship')
+            './behaviors/ship': 'ShipEntity'
         };
 
         // Listen for incoming messages
@@ -43,8 +42,8 @@ function EntityManagerFactory(socket, avatar, sceneMan)
         {
             // We instantiate the behavior class as the entity. This way, internally, behaviors can simply use `this` to
             // refer to the entity, as opposed to having to pass the entity into the behaviors.
-            var BehaviorClass = this.behaviors[entityDef.behavior];
-            var entity = new BehaviorClass(entityDef, socket);
+            var BehaviorFactoryName = this.behaviors[entityDef.behavior];
+            var entity = $injector.get(BehaviorFactoryName)(entityDef, socket);
 
             // Add the newly created entity to our list of entities.
             this.entities[entity.id] = entity;
@@ -56,7 +55,6 @@ function EntityManagerFactory(socket, avatar, sceneMan)
                     .then(function(mesh)
                     {
                         entity.mesh = mesh;
-                        sceneMan.playerCamera.target = mesh;
 
                         console.debug('Entity added successfully!', entity);
                         return entity;
@@ -115,6 +113,7 @@ function EntityManagerFactory(socket, avatar, sceneMan)
 // ---------------------------------------------------------------------------------------------------------------------
 
 angular.module('rfi-client.services').service('EntityManager', [
+        '$injector',
         'SocketService',
         'AvatarService',
         'SceneManager',
