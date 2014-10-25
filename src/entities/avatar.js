@@ -5,13 +5,15 @@
 // @module avatar.js
 // ---------------------------------------------------------------------------------------------------------------------
 
-function AvatarServiceFactory($rootScope)
+function AvatarServiceFactory($rootScope, sceneMan)
 {
     function AvatarService(){}
 
     AvatarService.prototype.inhabitEntity = function(entity)
     {
         this.entity = entity;
+
+        sceneMan.playerCamera.target = entity.mesh;
 
         $rootScope.$broadcast('avatar changed');
     }; // end inhabitEntity
@@ -21,6 +23,6 @@ function AvatarServiceFactory($rootScope)
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-angular.module('rfi-client.services').service('AvatarService', ['$rootScope', AvatarServiceFactory]);
+angular.module('rfi-client.services').service('AvatarService', ['$rootScope', 'SceneManager', AvatarServiceFactory]);
 
 // ---------------------------------------------------------------------------------------------------------------------
