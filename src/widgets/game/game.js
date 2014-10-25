@@ -38,10 +38,6 @@ function GameCanvasFactory($window, $timeout, babylon, sceneMan, keySvc)
                 sceneMan.loadScene()
                     .then(function()
                     {
-                        return sceneMan.loadMesh("models/ares/ares.babylon");
-                    })
-                    .then(function()
-                    {
                         return sceneMan.createSkybox("models/stars/purplenebula_2048");
                     })
                     .then(function()
