@@ -4,7 +4,11 @@
 // @module entityman.js
 // ---------------------------------------------------------------------------------------------------------------------
 
-function EntityManagerFactory(socket, avatar)
+var Promise = require('bluebird');
+
+// ---------------------------------------------------------------------------------------------------------------------
+
+function EntityManagerFactory(socket, avatar, sceneMan)
 {
     function EntityManager()
     {
@@ -33,6 +37,7 @@ function EntityManagerFactory(socket, avatar)
         if(entityDef.id in this.entities)
         {
             console.error('Attempting to add an entity("%s") that already exists. Ignoring message.', entityDef.id);
+            return Promise.resolve(this.entities[entityDef.id]);
         }
         else
         {
@@ -44,9 +49,23 @@ function EntityManagerFactory(socket, avatar)
             // Add the newly created entity to our list of entities.
             this.entities[entity.id] = entity;
 
-            console.debug('Entity added successfully!', entity);
+            if(entityDef.model)
+            {
+                console.debug('loading model:', entityDef.model);
+                return sceneMan.loadMesh(entityDef.model)
+                    .then(function(mesh)
+                    {
+                        entity.mesh = mesh;
+                        sceneMan.playerCamera.target = mesh;
 
-            return entity;
+                        console.debug('Entity added successfully!', entity);
+                        return entity;
+                    });
+            }
+            else
+            {
+                return Promise.resolve(entity);
+            }// end if
         } // end if
     }; // end EntityManager
 
@@ -59,6 +78,8 @@ function EntityManagerFactory(socket, avatar)
     {
         //TODO: We will want to unload any models we've loaded for this entity.
         delete this.entities[entityID];
+
+        return Promise.resolve();
     }; // end EntityManager
 
     // ---------------------------------------------------------------------------------------------------------------------
@@ -72,8 +93,10 @@ function EntityManagerFactory(socket, avatar)
 
     EntityManager.prototype._handleInhabit = function(entityDef)
     {
-        var entity = this.create(entityDef);
-        avatar.inhabitEntity(entity);
+        this.create(entityDef).then(function(entity)
+        {
+            avatar.inhabitEntity(entity);
+        });
     }; // end _handleInhabit
 
     EntityManager.prototype._handleUpdate = function(message)
@@ -94,6 +117,7 @@ function EntityManagerFactory(socket, avatar)
 angular.module('rfi-client.services').service('EntityManager', [
         'SocketService',
         'AvatarService',
+        'SceneManager',
         EntityManagerFactory
     ]);
 
