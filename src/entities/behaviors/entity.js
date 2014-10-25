@@ -20,4 +20,12 @@ function BaseEntity(entityDef, controller)
 
 module.exports = BaseEntity;
 
+angular.module('rfi-client.behaviors').factory('BaseEntity', function()
+{
+    return function(entityDef, controller)
+    {
+        return new BaseEntity(entityDef, controller);
+    };
+});
+
 // ---------------------------------------------------------------------------------------------------------------------
