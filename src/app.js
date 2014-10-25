@@ -15,7 +15,8 @@ angular.module("rfi-client", [
         'rfi-client.controllers',
         'rfi-client.services',
         'rfi-client.directives',
-        'rfi-client.widgets'
+        'rfi-client.widgets',
+        'rfi-client.behaviors'
     ])
     .run(['SocketService', function(socket)
     {
@@ -44,6 +45,7 @@ angular.module("rfi-client.controllers", []);
 angular.module("rfi-client.services", ['babylon']);
 angular.module("rfi-client.directives", []);
 angular.module("rfi-client.widgets", ['babylon']);
+angular.module("rfi-client.behaviors", []);
 
 // ---------------------------------------------------------------------------------------------------------------------
 
