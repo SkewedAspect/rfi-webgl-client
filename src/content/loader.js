@@ -82,6 +82,9 @@ function LoaderFactory(babylon)
                 scene, self.skyboxExtensions, true);
             skyboxMaterial.reflectionTexture.coordinatesMode = babylon.Texture.SKYBOX_MODE;
 
+            // This keeps the mesh a fixed distance from the camera.
+            skybox.infiniteDistance = true;
+
             skybox.material = skyboxMaterial;
 
             resolve(skybox);

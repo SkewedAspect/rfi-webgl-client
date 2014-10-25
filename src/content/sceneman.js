@@ -63,16 +63,16 @@ function SceneManagerFactory($rootScope, Loader, babylon)
      */
     SceneManager.prototype.createSkybox = function(baseFileName)
     {
+        var self = this;
+
         if(!this.loader)
         {
             return Promise.reject(new Error("Must set a render target before attempting to load a skybox."));
         }
         else
         {
-            //TODO: There may be more work required here. Unless we can find an API for working with skyboxes, this has
-            // several problems. We, essentially, need to reparent it's position to that of the camera's, as well as
-            // ensure it renders before everything else. If there is no good API for this, then this function will need
-            // to expand.
+            //TODO: There may be more work required here. We are currently reparenting the skybox's position to the
+            // camera's position. We also need to change it's render order, and possibly turn off depth buffer clearing.
             return this.loader.createSkybox(this.currentScene, baseFileName);
         } // end if
     }; // end createSkybox
