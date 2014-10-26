@@ -24,13 +24,11 @@ function GameCanvasFactory($window, $timeout, babylon, sceneMan, keySvc)
 
     function GameCanvasLink(scope, elem, attrs, controller)
     {
-        var canvas, engine;
-
         if(isSupported)
         {
             console.log("Setting up canvas.");
 
-            canvas = elem.children('canvas');
+            var canvas = elem.children('canvas');
 
             $timeout(function()
             {
@@ -54,7 +52,7 @@ function GameCanvasFactory($window, $timeout, babylon, sceneMan, keySvc)
                     });
 
                 // Listen for window resize events.
-                $window.addEventListener('resize', sceneMan.engine.resize.bind(engine));
+                $window.addEventListener('resize', sceneMan.engine.resize.bind(sceneMan.engine));
             });
         } // end if
 
