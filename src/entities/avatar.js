@@ -22,7 +22,29 @@ function AvatarServiceFactory($rootScope, sceneMan, inputMan)
         elem.focus();
 
         $rootScope.$broadcast('avatar changed');
+
+        this._registerCommands();
     }; // end inhabitEntity
+
+    AvatarService.prototype._registerCommands = function()
+    {
+        var self = this;
+
+        inputMan.onCommand('heading', function(event, heading)
+        {
+            self.entity.mesh.rotate(BABYLON.Axis.Y, self.entity.mesh.rotation.y + heading, BABYLON.Space.LOCAL);
+        });
+
+        inputMan.onCommand('pitch', function(event, pitch)
+        {
+            self.entity.mesh.rotate(BABYLON.Axis.Z, self.entity.mesh.rotation.z + pitch, BABYLON.Space.LOCAL);
+        });
+
+        inputMan.onCommand('roll', function(event, roll)
+        {
+            self.entity.mesh.rotate(BABYLON.Axis.X, self.entity.mesh.rotation.x + roll, BABYLON.Space.LOCAL);
+        });
+    };
 
     return new AvatarService();
 } // end AvatarServiceFactory
