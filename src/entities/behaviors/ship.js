@@ -19,22 +19,7 @@ util.inherits(ShipEntity, BaseEntity);
 
 ShipEntity.prototype._registerCommands = function()
 {
-    var self = this;
 
-    this.inputMan.onCommand('heading', function(event, heading)
-    {
-        self.mesh.rotate(BABYLON.Axis.Y, self.mesh.rotation.y + heading, BABYLON.Space.LOCAL);
-    });
-
-    this.inputMan.onCommand('pitch', function(event, pitch)
-    {
-        self.mesh.rotate(BABYLON.Axis.Z, self.mesh.rotation.z + pitch, BABYLON.Space.LOCAL);
-    });
-
-    this.inputMan.onCommand('roll', function(event, roll)
-    {
-        self.mesh.rotate(BABYLON.Axis.X, self.mesh.rotation.x + roll, BABYLON.Space.LOCAL);
-    })
 };
 
 ShipEntity.prototype._init = function()
