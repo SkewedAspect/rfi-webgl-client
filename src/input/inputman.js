@@ -9,7 +9,7 @@ var Promise = require('bluebird');
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-function InputManagerFactory($rootScope, configMan, keySvc)
+function InputManagerFactory($rootScope, configMan, keySvc, sceneMan)
 {
     function InputManager()
     {
@@ -70,6 +70,22 @@ function InputManagerFactory($rootScope, configMan, keySvc)
         //--------------------------------------------------------------------------------------------------------------
     }; // end reloadConfig
 
+    // -----------------------------------------------------------------------------------------------------------------
+    // Public API
+    // -----------------------------------------------------------------------------------------------------------------
+
+    InputManager.prototype.enableMouseLook = function()
+    {
+        //TODO: This needs to use PointerLock as well: https://developer.mozilla.org/en-US/docs/Web/API/Pointer_Lock_API
+        sceneMan.playerCamera.attachControl(sceneMan.canvas);
+    }; // end enableMouseLook
+
+    InputManager.prototype.disableMouseLook = function()
+    {
+        //TODO: This needs to use PointerLock as well: https://developer.mozilla.org/en-US/docs/Web/API/Pointer_Lock_API
+        sceneMan.playerCamera.detachControl(sceneMan.canvas);
+    }; // end disableMouseLook
+
     InputManager.prototype.onCommand = function(command, callback)
     {
         // Register the command if it doesn't already exist in our list of commands.
@@ -95,6 +111,7 @@ angular.module('rfi-client.services').service('InputManager', [
     '$rootScope',
     'ConfigurationManager',
     'KeyBindingService',
+    'SceneManager',
     InputManagerFactory
 ]);
 

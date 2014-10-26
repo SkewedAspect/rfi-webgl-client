@@ -158,7 +158,6 @@ function SceneManagerFactory($rootScope, Loader, babylon)
             // We always create a camera for the player's perspective.
             self.playerCamera = new babylon.ArcRotateCamera("PlayerCamera", 0, 0, 100, babylon.Vector3.Zero(),
                 self.currentScene);
-            self.playerCamera.attachControl(self.canvas);
 
             return new Promise(function(resolve)
             {

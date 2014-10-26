@@ -5,7 +5,7 @@
 // @module avatar.js
 // ---------------------------------------------------------------------------------------------------------------------
 
-function AvatarServiceFactory($rootScope, sceneMan)
+function AvatarServiceFactory($rootScope, sceneMan, inputMan)
 {
     function AvatarService(){}
 
@@ -13,7 +13,13 @@ function AvatarServiceFactory($rootScope, sceneMan)
     {
         this.entity = entity;
 
+        // Setup camera
         sceneMan.playerCamera.target = entity.mesh;
+        inputMan.enableMouseLook(); //TODO: This should eventually be done based on mouse binding, not always.
+
+        // Focus our game element
+        var elem = document.getElementById('game');
+        elem.focus();
 
         $rootScope.$broadcast('avatar changed');
     }; // end inhabitEntity
@@ -23,6 +29,10 @@ function AvatarServiceFactory($rootScope, sceneMan)
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-angular.module('rfi-client.services').service('AvatarService', ['$rootScope', 'SceneManager', AvatarServiceFactory]);
+angular.module('rfi-client.services').service('AvatarService', [
+    '$rootScope',
+    'SceneManager',
+    'InputManager',
+    AvatarServiceFactory]);
 
 // ---------------------------------------------------------------------------------------------------------------------
