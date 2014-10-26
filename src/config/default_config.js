@@ -20,7 +20,7 @@ module.exports = {
         },
         'd': {
             command: 'heading',
-            value: -0.5
+            value: 0.5
         },
         'q': {
             command: 'roll',
