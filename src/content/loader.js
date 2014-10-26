@@ -43,7 +43,7 @@ function LoaderFactory(babylon)
         });
     }; // end loadScene
 
-    Loader.prototype.loadMesh = function(scene, fileName, meshesNames)
+    Loader.prototype.loadMesh = function(scene, meshesNames, fileName)
     {
         var self = this;
 

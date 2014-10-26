@@ -51,7 +51,7 @@ function EntityManagerFactory($injector, socket, avatar, sceneMan)
             if(entityDef.model)
             {
                 console.debug('loading model:', entityDef.model);
-                return sceneMan.loadMesh(entityDef.model)
+                return sceneMan.loadMesh(entityDef.model.name, entityDef.model.file)
                     .then(function(mesh)
                     {
                         entity.mesh = mesh;

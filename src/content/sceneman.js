@@ -92,6 +92,13 @@ function SceneManagerFactory($rootScope, Loader, babylon)
     SceneManager.prototype.loadMesh = function(meshName, modelPath)
     {
         var self = this;
+
+        if(arguments.length == 1)
+        {
+            modelPath = meshName;
+            meshName = "";
+        } // end if
+
         if(!_.isEmpty(meshName) && meshName in this.meshes)
         {
             return Promise.resolve(this.meshes[meshName])
