@@ -87,24 +87,28 @@ function SceneManagerFactory($rootScope, Loader, babylon)
      *
      * @param {string} modelPath - The path to the model, relative to our static files path.
      *
-     * @returns {Promise<*>} Returns a promise that resolves with the new mesh instance.
+     * @returns {Promise<Mesh>} Returns a promise that resolves with the new mesh instance.
      */
     SceneManager.prototype.loadMesh = function(meshName, modelPath)
     {
-        var loadPromise;
         var self = this;
         if(!_.isEmpty(meshName) && meshName in this.meshes)
         {
-            loadPromise = Promise.resolve(this.meshes[meshName]);
+            return Promise.resolve(this.meshes[meshName])
+                .then(function(mesh)
+                {
+                    return mesh.createInstance();
+                });
         }
         else
         {
-            loadPromise = this.loader.loadMesh(this.currentScene, meshName, modelPath)
+            return this.loader.loadMesh(this.currentScene, meshName, modelPath)
                 .then(function(loaded)
                 {
                     if(_.isEmpty(meshName))
                     {
-                        return loaded.meshes;
+                        // We only support loading a single mesh at a time
+                        return loaded.meshes[0];
                     }
                     else
                     {
@@ -115,12 +119,6 @@ function SceneManagerFactory($rootScope, Loader, babylon)
                     } // end if
                 });
         } // end if
-
-        return loadPromise.then(function(mesh)
-        {
-            console.log('mesh:', mesh);
-            return mesh.createInstance();
-        });
     }; // end loadMesh
 
     /**
