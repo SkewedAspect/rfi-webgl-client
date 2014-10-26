@@ -22,6 +22,14 @@ module.exports = {
             command: 'heading',
             value: -0.5
         },
+        'q': {
+            command: 'roll',
+            value: 0.5
+        },
+        'e': {
+            command: 'roll',
+            value: -0.5
+        },
         'c': {
             command: 'crouch',
             toggle: true
