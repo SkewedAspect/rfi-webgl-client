@@ -112,18 +112,18 @@ function SceneManagerFactory($rootScope, Loader, babylon)
             return this.loader.loadMesh(this.currentScene, meshName, modelPath)
                 .then(function(loaded)
                 {
-                    if(_.isEmpty(meshName))
-                    {
-                        // We only support loading a single mesh at a time
-                        return loaded.meshes[0];
-                    }
-                    else
-                    {
-                        var mesh = loaded.meshes[0];
-                        self.meshes[meshName] = mesh;
+                    // We only support loading a single mesh at a time
+                    var mesh = loaded.meshes[0];
 
-                        return mesh;
+                    // We put all meshes (except skyboxes) in rendering group 1.
+                    mesh.renderingGroupId = 1;
+
+                    if(!_.isEmpty(meshName))
+                    {
+                        self.meshes[meshName] = mesh;
                     } // end if
+
+                    return mesh;
                 });
         } // end if
     }; // end loadMesh
