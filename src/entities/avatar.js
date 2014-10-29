@@ -5,17 +5,35 @@
 // @module avatar.js
 // ---------------------------------------------------------------------------------------------------------------------
 
-function AvatarServiceFactory($rootScope, sceneMan, inputMan)
+function AvatarServiceFactory($rootScope, babylon, sceneMan, inputMan)
 {
+    var rfiPhysics = require('rfi-physics');
+
+    var engine = new rfiPhysics.PhysicsEngine();
+
+    engine.loop();
+
+    function updateMesh(mesh)
+    {
+        mesh.position.copyFrom(this.position);
+        mesh.rotationQuaternion.copyFrom(this.quaternion);
+    } // end updateMesh
+
     function AvatarService(){}
 
     AvatarService.prototype.inhabitEntity = function(entity)
     {
         this.entity = entity;
 
-        // Setup camera
+        // Set up camera
         sceneMan.playerCamera.target = entity.mesh;
         inputMan.enableMouseLook(); //TODO: This should eventually be done based on mouse binding, not always.
+
+        entity.mesh.rotationQuaternion = new babylon.Quaternion();
+        var body = engine.addBody();
+        body.addEventListener('postStep', updateMesh.bind(body, entity.mesh));
+
+        this.targetVelocity = new rfiPhysics.TargetVelocityController(body);
 
         // Focus our game element
         var elem = document.getElementById('game');
@@ -32,17 +50,17 @@ function AvatarServiceFactory($rootScope, sceneMan, inputMan)
 
         inputMan.onCommand('heading', function(event, heading)
         {
-            self.entity.mesh.rotate(BABYLON.Axis.Y, self.entity.mesh.rotation.y + heading, BABYLON.Space.LOCAL);
+            self.targetVelocity.targetAngularVelocity.y = heading;
         });
 
         inputMan.onCommand('pitch', function(event, pitch)
         {
-            self.entity.mesh.rotate(BABYLON.Axis.Z, self.entity.mesh.rotation.z + pitch, BABYLON.Space.LOCAL);
+            self.targetVelocity.targetAngularVelocity.z = pitch;
         });
 
         inputMan.onCommand('roll', function(event, roll)
         {
-            self.entity.mesh.rotate(BABYLON.Axis.X, self.entity.mesh.rotation.x + roll, BABYLON.Space.LOCAL);
+            self.targetVelocity.targetAngularVelocity.x = roll;
         });
     };
 
@@ -53,6 +71,7 @@ function AvatarServiceFactory($rootScope, sceneMan, inputMan)
 
 angular.module('rfi-client.services').service('AvatarService', [
     '$rootScope',
+    'babylon',
     'SceneManager',
     'InputManager',
     AvatarServiceFactory]);
