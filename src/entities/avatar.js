@@ -30,7 +30,7 @@ function AvatarServiceFactory($rootScope, babylon, sceneMan, inputMan)
         inputMan.enableMouseLook(); //TODO: This should eventually be done based on mouse binding, not always.
 
         entity.mesh.rotationQuaternion = new babylon.Quaternion();
-        var body = engine.addBody();
+        var body = engine.addBody({ mass: 100 });
         body.addEventListener('postStep', updateMesh.bind(body, entity.mesh));
 
         this.targetVelocity = new rfiPhysics.TargetVelocityController(body);
@@ -50,17 +50,17 @@ function AvatarServiceFactory($rootScope, babylon, sceneMan, inputMan)
 
         inputMan.onCommand('heading', function(event, heading)
         {
-            self.targetVelocity.targetAngularVelocity.y = heading;
+            self.targetVelocity.targetAngularVelocity.y += (heading / 10);
         });
 
         inputMan.onCommand('pitch', function(event, pitch)
         {
-            self.targetVelocity.targetAngularVelocity.z = pitch;
+            self.targetVelocity.targetAngularVelocity.z += (pitch / 10);
         });
 
         inputMan.onCommand('roll', function(event, roll)
         {
-            self.targetVelocity.targetAngularVelocity.x = roll;
+            self.targetVelocity.targetAngularVelocity.x += (roll / 10);
         });
     };
 
