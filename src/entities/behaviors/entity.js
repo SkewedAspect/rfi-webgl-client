@@ -16,6 +16,11 @@ function BaseEntity(entityDef, controller)
     _.merge(this, entityDef);
 } // end BaseEntity
 
+BaseEntity.prototype.setMesh = function(mesh)
+{
+    this.mesh = mesh;
+}; // end setMesh
+
 // ---------------------------------------------------------------------------------------------------------------------
 
 module.exports = BaseEntity;

@@ -5,42 +5,47 @@
 // ---------------------------------------------------------------------------------------------------------------------
 
 var util = require('util');
-var BaseEntity = require('./entity');
+var PhysicalEntity = require('./physical');
 
 // ---------------------------------------------------------------------------------------------------------------------
 
 function ShipEntity()
 {
-    BaseEntity.apply(this, arguments);
+    PhysicalEntity.apply(this, arguments);
 } // end ShipEntity
 
-//TODO: This probably will not inherit from BaseEntity directly in the future; but for now this works.
-util.inherits(ShipEntity, BaseEntity);
+util.inherits(ShipEntity, PhysicalEntity);
+
+ShipEntity.prototype._init = function(babylon, physics, inputMan)
+{
+    PhysicalEntity.prototype._init.call(this, babylon, physics);
+
+    this.inputMan = inputMan;
+    this._registerCommands();
+}; // end _init
 
 ShipEntity.prototype._registerCommands = function()
 {
-
-};
-
-ShipEntity.prototype._init = function()
-{
-    this._registerCommands();
-};
-
+    //TODO: Register for any input commands we need.
+}; // end _registerCommands
 
 // ---------------------------------------------------------------------------------------------------------------------
 
 module.exports = ShipEntity;
 
-angular.module('rfi-client.behaviors').factory('ShipEntity', ['InputManager', function(inputMan)
-{
-    return function(entityDef, controller)
+angular.module('rfi-client.behaviors').factory('ShipEntity', [
+    'babylon',
+    'PhysicsService',
+    'InputManager',
+    function(babylon, physics, inputMan)
     {
-        var ship = new ShipEntity(entityDef, controller);
-        ship.inputMan = inputMan;
-        ship._init();
-        return ship;
-    };
-}]);
+        return function(entityDef, controller)
+        {
+            var ship = new ShipEntity(entityDef, controller);
+            ship._init(babylon, physics, inputMan);
+            return ship;
+        };
+    }
+]);
 
 // ---------------------------------------------------------------------------------------------------------------------

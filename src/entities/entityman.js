@@ -8,10 +8,13 @@ var Promise = require('bluebird');
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-function EntityManagerFactory($injector, socket, avatar, sceneMan)
+function EntityManagerFactory($injector, socket, avatar, sceneMan, physics)
 {
     function EntityManager()
     {
+        // Start the physics engine
+        physics.start();
+
         this.entities = {};
 
         // Mapping between server name and our factory name
@@ -54,7 +57,7 @@ function EntityManagerFactory($injector, socket, avatar, sceneMan)
                 return sceneMan.loadMesh(entityDef.model.name, entityDef.model.file)
                     .then(function(mesh)
                     {
-                        entity.mesh = mesh;
+                        entity.setMesh(mesh);
 
                         console.debug('Entity added successfully!', entity);
                         return entity;
@@ -117,6 +120,7 @@ angular.module('rfi-client.services').service('EntityManager', [
         'SocketService',
         'AvatarService',
         'SceneManager',
+        'PhysicsService',
         EntityManagerFactory
     ]);
 
