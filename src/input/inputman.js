@@ -31,8 +31,8 @@ function InputManagerFactory($rootScope, configMan, keySvc, sceneMan)
 
     InputManager.prototype._buildMomentary = function(commandEvent, onValue, offValue)
     {
-        onValue = onValue || true;
-        offValue = offValue || false;
+        onValue = onValue === undefined ? true : onValue;
+        offValue = offValue === undefined ? false : offValue;
 
         return [
             function momentaryOnFunc()
