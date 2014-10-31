@@ -40,7 +40,7 @@ function KeyBindingServiceFactory($document, $window, $timeout)
         }
     }; // end _wrapCallback
 
-    KeyBindingService.prototype.register = function(binding, callback)
+    KeyBindingService.prototype.register = function(binding, keyDown, keyUp)
     {
         if(!this.listener)
         {
@@ -48,14 +48,17 @@ function KeyBindingServiceFactory($document, $window, $timeout)
             return
         } // end if
 
-        callback = callback || function(){};
         var newBinding = {};
+
+        keyDown = keyDown || function(){};
+        keyUp = keyUp || function(){};
 
         if(_.isString(binding))
         {
             newBinding = {
                 keys: binding,
-                on_keydown: this._wrapCallback(callback)
+                on_keydown: this._wrapCallback(keyDown),
+                on_keyup: this._wrapCallback(keyUp)
             };
         }
         else if(_.isPlainObject(binding))

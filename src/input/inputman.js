@@ -20,6 +20,25 @@ function InputManagerFactory($rootScope, configMan, keySvc, sceneMan)
 
     // -----------------------------------------------------------------------------------------------------------------
 
+    InputManager.prototype._buildSingleShot = function(commandEvent, onValue, offValue)
+    {
+        onValue = onValue || true;
+        offValue = offValue || false;
+
+        return [
+            function sShotOnFunc()
+            {
+                console.log('single-shot "%s" set to value:', commandEvent, onValue);
+                $rootScope.$broadcast(commandEvent, onValue);
+            }, // end sShotOnFunc
+            function sShotOffFunc()
+            {
+                console.log('single-shot "%s" reset to value:', commandEvent, offValue);
+                $rootScope.$broadcast(commandEvent, offValue);
+            } // end sShotOffFunc
+        ]
+    }; // end _buildMomentary
+
     InputManager.prototype._buildMomentary = function(commandEvent, value)
     {
         return function momentaryFunc()
@@ -29,14 +48,17 @@ function InputManagerFactory($rootScope, configMan, keySvc, sceneMan)
         }; // end momentaryFunc
     }; // end _buildMomentary
 
-    InputManager.prototype._buildToggle = function(commandEvent)
+    InputManager.prototype._buildToggle = function(commandEvent, onValue, offValue)
     {
+        var value;
         var toggle = false;
         return function toggleFunc()
         {
             toggle = !toggle;
-            console.log('toggle "%s" with value:', commandEvent, toggle);
-            $rootScope.$broadcast(commandEvent, toggle);
+            value = toggle ? (onValue || true) : (offValue || false);
+
+            console.log('toggle "%s" with value:', commandEvent, value);
+            $rootScope.$broadcast(commandEvent, value);
         }; // end toggleFunc
     }; // end _buildToggle
 
@@ -59,7 +81,12 @@ function InputManagerFactory($rootScope, configMan, keySvc, sceneMan)
         {
             if(cmdConf.toggle)
             {
-                keySvc.register(keys, self._buildToggle(cmdConf.command));
+                keySvc.register(keys, self._buildToggle(cmdConf.command, cmdConf.onValue, cmdConf.offValue));
+            }
+            else if(cmdConf.singleShot)
+            {
+                var handlers = self._buildSingleShot(cmdConf.command, cmdConf.onValue, cmdConf.offValue);
+                keySvc.register(keys, handlers[0], handlers[1]);
             }
             else
             {
