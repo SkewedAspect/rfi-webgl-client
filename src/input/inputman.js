@@ -20,32 +20,32 @@ function InputManagerFactory($rootScope, configMan, keySvc, sceneMan)
 
     // -----------------------------------------------------------------------------------------------------------------
 
-    InputManager.prototype._buildSingleShot = function(commandEvent, onValue, offValue)
+    InputManager.prototype._buildSingleShot = function(commandEvent, value)
+    {
+        return function singleShotFunc()
+        {
+            console.log('single-shot "%s" with value:', commandEvent, value);
+            $rootScope.$broadcast(commandEvent, value);
+        }; // end singleShotFunc
+    }; // end _buildSingleShot
+
+    InputManager.prototype._buildMomentary = function(commandEvent, onValue, offValue)
     {
         onValue = onValue || true;
         offValue = offValue || false;
 
         return [
-            function sShotOnFunc()
+            function momentaryOnFunc()
             {
-                console.log('single-shot "%s" set to value:', commandEvent, onValue);
+                console.log('momentary "%s" set to value:', commandEvent, onValue);
                 $rootScope.$broadcast(commandEvent, onValue);
-            }, // end sShotOnFunc
-            function sShotOffFunc()
+            }, // end momentaryOnFunc
+            function momentaryOffFunc()
             {
-                console.log('single-shot "%s" reset to value:', commandEvent, offValue);
+                console.log('momentary "%s" reset to value:', commandEvent, offValue);
                 $rootScope.$broadcast(commandEvent, offValue);
-            } // end sShotOffFunc
+            } // end momentaryOffFunc
         ]
-    }; // end _buildMomentary
-
-    InputManager.prototype._buildMomentary = function(commandEvent, value)
-    {
-        return function momentaryFunc()
-        {
-            console.log('momentary "%s" with value:', commandEvent, value);
-            $rootScope.$broadcast(commandEvent, value);
-        }; // end momentaryFunc
     }; // end _buildMomentary
 
     InputManager.prototype._buildToggle = function(commandEvent, onValue, offValue)
@@ -85,12 +85,12 @@ function InputManagerFactory($rootScope, configMan, keySvc, sceneMan)
             }
             else if(cmdConf.singleShot)
             {
-                var handlers = self._buildSingleShot(cmdConf.command, cmdConf.onValue, cmdConf.offValue);
-                keySvc.register(keys, handlers[0], handlers[1]);
+                keySvc.register(keys, self._buildSingleShot(cmdConf.command, cmdConf.value));
             }
             else
             {
-                keySvc.register(keys, self._buildMomentary(cmdConf.command, cmdConf.value));
+                var handlers = self._buildMomentary(cmdConf.command, cmdConf.onValue, cmdConf.offValue);
+                keySvc.register(keys, handlers[0], handlers[1]);
             } // end if
         });
 
