@@ -30,7 +30,13 @@ PhysicalEntity.prototype._init = function(babylon, physics)
     this.body = this.engine.addBody({ mass: this.mass });
 
     // Create a target velocity controller
-    this.targetVelocityController = new rfiPhysics.TargetVelocityController(this.body);
+    this.targetVelocityController = new rfiPhysics.TargetVelocityController(this.body, {
+        maxAngularThrust: {
+            x: this.turn_rate * (Math.PI / 180),   // pitch
+            y: this.turn_rate * (Math.PI / 180),   // heading
+            z: this.turn_rate * (Math.PI / 180)    // roll
+        }
+    });
 
     Object.defineProperties(this, {
         targetAngularVelocity: {
