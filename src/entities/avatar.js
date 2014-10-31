@@ -32,17 +32,17 @@ function AvatarServiceFactory($rootScope, sceneMan, inputMan)
 
         inputMan.onCommand('heading', function(event, heading)
         {
-            self.entity.targetAngularVelocity.y += (heading / 10);
+            self.entity.targetAngularVelocity.y = heading;
         });
 
         inputMan.onCommand('pitch', function(event, pitch)
         {
-            self.entity.targetAngularVelocity.z += (pitch / 10);
+            self.entity.targetAngularVelocity.z = pitch;
         });
 
         inputMan.onCommand('roll', function(event, roll)
         {
-            self.entity.targetAngularVelocity.x += (roll / 10);
+            self.entity.targetAngularVelocity.x = roll;
         });
     };
 

@@ -8,27 +8,33 @@ module.exports = {
     keyboard: {
         'w': {
             command: 'pitch',
-            value: -0.5
+            onValue: -0.95,
+            offValue: 0
         },
         's': {
             command: 'pitch',
-            value: 0.5
+            onValue: 0.95,
+            offValue: 0
         },
         'a': {
             command: 'heading',
-            value: -0.5
+            onValue: -0.95,
+            offValue: 0
         },
         'd': {
             command: 'heading',
-            value: 0.5
+            onValue: 0.95,
+            offValue: 0
         },
         'q': {
             command: 'roll',
-            value: 0.5
+            onValue: 0.95,
+            offValue: 0
         },
         'e': {
             command: 'roll',
-            value: -0.5
+            onValue: -0.95,
+            offValue: 0
         },
         'c': {
             command: 'crouch',
