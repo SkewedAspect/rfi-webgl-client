@@ -5,6 +5,10 @@
 // ---------------------------------------------------------------------------------------------------------------------
 /* global angular: true */
 
+var path = require('path');
+
+// ---------------------------------------------------------------------------------------------------------------------
+
 function LoaderFactory(babylon)
 {
     var Promise = require('bluebird');
@@ -49,7 +53,9 @@ function LoaderFactory(babylon)
 
         return new Promise(function(resolve)
         {
-            babylon.SceneLoader.ImportMesh(meshesNames, self.rootURL, fileName, scene,
+            var file = path.basename(fileName);
+            var filePath = self.rootURL + path.dirname(fileName) + '/';
+            babylon.SceneLoader.ImportMesh(meshesNames, filePath, file, scene,
                 function(meshes, particleSystems)
                 {
                     resolve({meshes: meshes, particleSystems: particleSystems});
