@@ -27,14 +27,27 @@ PhysicalEntity.prototype._init = function(babylon, physics)
     this.babylon = babylon;
     this.physics = physics;
     this.engine = physics.engine;
-    this.body = this.engine.addBody({ mass: this.mass });
+    this.body = this.engine.addBody({ mass: 1/*this.mass*/ });
+
+    // Convert to radians/sec
+    var turnRate = (this.turn_rate || 2) * (Math.PI / 180);
 
     // Create a target velocity controller
     this.targetVelocityController = new rfiPhysics.TargetVelocityController(this.body, {
         maxAngularThrust: {
-            x: this.turn_rate * (Math.PI / 180),   // pitch
-            y: this.turn_rate * (Math.PI / 180),   // heading
-            z: this.turn_rate * (Math.PI / 180)    // roll
+            x: turnRate,
+            y: turnRate,
+            z: turnRate
+        },
+        angularTargetVelocityScaling: {
+            x: turnRate,
+            y: turnRate,
+            z: turnRate
+        },
+        angularResponsiveness: {
+            x: 10,
+            y: 10,
+            z: 10
         }
     });
 

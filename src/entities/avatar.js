@@ -44,6 +44,22 @@ function AvatarServiceFactory($rootScope, sceneMan, inputMan)
         {
             self.entity.targetAngularVelocity.x = roll;
         });
+
+        inputMan.onCommand('throttle', function(event, throttle)
+        {
+            self.entity.targetLinearVelocity.x += throttle;
+        });
+
+        inputMan.onCommand('all-stop', function(event)
+        {
+            self.entity.targetLinearVelocity.x = 0;
+            self.entity.targetLinearVelocity.y = 0;
+            self.entity.targetLinearVelocity.z = 0;
+
+            self.entity.targetAngularVelocity.x = 0;
+            self.entity.targetAngularVelocity.y = 0;
+            self.entity.targetAngularVelocity.z = 0;
+        });
     };
 
     return new AvatarService();

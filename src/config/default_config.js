@@ -27,14 +27,18 @@ module.exports = {
             offValue: 0
         },
         'q': {
-            command: 'roll',
-            onValue: 0.95,
-            offValue: 0
+            command: 'throttle',
+            singleShot: true,
+            value: 0.125
         },
         'e': {
-            command: 'roll',
-            onValue: -0.95,
-            offValue: 0
+            command: 'throttle',
+            singleShot: true,
+            value: -0.125
+        },
+        'x': {
+            command: 'all-stop',
+            singleShot: true
         },
         'c': {
             command: 'crouch',
