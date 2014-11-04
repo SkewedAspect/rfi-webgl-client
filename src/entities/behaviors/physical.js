@@ -15,9 +15,6 @@ var BaseEntity = require('./entity');
 function PhysicalEntity()
 {
     BaseEntity.apply(this, arguments);
-
-    // Default to a mass of 100
-    this.mass = this.mass || 100;
 } // end PhysicalEntity
 
 util.inherits(PhysicalEntity, BaseEntity);
@@ -27,13 +24,36 @@ PhysicalEntity.prototype._init = function(babylon, physics)
     this.babylon = babylon;
     this.physics = physics;
     this.engine = physics.engine;
-    this.body = this.engine.addBody({ mass: 1/*this.mass*/ });
+    this.body = this.engine.addBody({ mass: 1 });
 
     // Convert to radians/sec
     var turnRate = (this.turn_rate || 2) * (Math.PI / 180);
 
+    // Scale thrust
+    var maxSpeed = {
+        x: this.max_speed.x / 10,
+        y: this.max_speed.y / 10,
+        z: this.max_speed.z / 10
+    };
+
     // Create a target velocity controller
     this.targetVelocityController = new rfiPhysics.TargetVelocityController(this.body, {
+        maxLinearThrust: {
+            x: maxSpeed.x,
+            y: maxSpeed.y,
+            z: maxSpeed.z
+        },
+        linearTargetVelocityScaling: {
+            x: maxSpeed.x,
+            y: maxSpeed.y,
+            z: maxSpeed.z
+        },
+        linearResponsiveness: {
+            x: 10,
+            y: 10,
+            z: 10
+        },
+
         maxAngularThrust: {
             x: turnRate,
             y: turnRate,
