@@ -26,48 +26,38 @@ PhysicalEntity.prototype._init = function(babylon, physics)
     this.engine = physics.engine;
     this.body = this.engine.addBody({ mass: 1 });
 
-    // Convert to radians/sec
-    var turnRate = this.turn_rate || 2;
-
-    // Scale thrust
-    var maxSpeed = {
-        x: this.max_speed.x,
-        y: this.max_speed.y,
-        z: this.max_speed.z
-    };
-
     // Create a target velocity controller
     this.targetVelocityController = new rfiPhysics.TargetVelocityController(this.body, {
         maxLinearThrust: {
-            x: maxSpeed.x,
-            y: maxSpeed.y,
-            z: maxSpeed.z
+            x: this.max_speed.x,
+            y: this.max_speed.y,
+            z: this.max_speed.z
         },
         linearTargetVelocityScaling: {
-            x: maxSpeed.x,
-            y: maxSpeed.y,
-            z: maxSpeed.z
+            x: this.max_speed.x,
+            y: this.max_speed.y,
+            z: this.max_speed.z
         },
         linearResponsiveness: {
-            x: 10,
-            y: 10,
-            z: 10
+            x: this.linear_responsiveness.x,
+            y: this.linear_responsiveness.y,
+            z: this.linear_responsiveness.z
         },
 
         maxAngularThrust: {
-            x: turnRate,
-            y: turnRate,
-            z: turnRate
+            x: this.turn_rate,
+            y: this.turn_rate,
+            z: this.turn_rate
         },
         angularTargetVelocityScaling: {
-            x: turnRate,
-            y: turnRate,
-            z: turnRate
+            x: this.turn_rate,
+            y: this.turn_rate,
+            z: this.turn_rate
         },
         angularResponsiveness: {
-            x: 10,
-            y: 10,
-            z: 10
+            x: this.angular_responsiveness.x,
+            y: this.angular_responsiveness.y,
+            z: this.angular_responsiveness.z
         }
     });
 
