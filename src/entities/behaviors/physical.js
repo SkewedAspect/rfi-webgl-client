@@ -27,13 +27,13 @@ PhysicalEntity.prototype._init = function(babylon, physics)
     this.body = this.engine.addBody({ mass: 1 });
 
     // Convert to radians/sec
-    var turnRate = (this.turn_rate || 2) * (Math.PI / 180);
+    var turnRate = this.turn_rate || 2;
 
     // Scale thrust
     var maxSpeed = {
-        x: this.max_speed.x / 10,
-        y: this.max_speed.y / 10,
-        z: this.max_speed.z / 10
+        x: this.max_speed.x,
+        y: this.max_speed.y,
+        z: this.max_speed.z
     };
 
     // Create a target velocity controller
