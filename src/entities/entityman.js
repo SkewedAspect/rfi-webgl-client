@@ -4,6 +4,7 @@
 // @module entityman.js
 // ---------------------------------------------------------------------------------------------------------------------
 
+var _ = require('lodash');
 var Promise = require('bluebird');
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -102,7 +103,15 @@ function EntityManagerFactory($injector, socket, avatar, sceneMan, physics)
 
     EntityManager.prototype._handleUpdate = function(message)
     {
-        console.error('Update Not Implemented! Message:', message);
+        if(message.id in this.entities)
+        {
+            console.log('applying update:', message);
+            _.merge(this.entities[message.id], message);
+        }
+        else
+        {
+            console.error('Update for unknown entity:', message.id);
+        } // end if
     }; // end _handleUpdate
 
     EntityManager.prototype._handleDestroy = function(message)
