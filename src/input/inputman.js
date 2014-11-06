@@ -9,7 +9,7 @@ var Promise = require('bluebird');
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-function InputManagerFactory($rootScope, configMan, keySvc, sceneMan)
+function InputManagerFactory($rootScope, configMan, keySvc, sceneMan, socket)
 {
     function InputManager()
     {
@@ -22,15 +22,17 @@ function InputManagerFactory($rootScope, configMan, keySvc, sceneMan)
 
     InputManager.prototype._buildSingleShot = function(commandEvent, value)
     {
+        var self = this;
         return function singleShotFunc()
         {
             console.log('single-shot "%s" with value:', commandEvent, value);
-            $rootScope.$broadcast(commandEvent, value);
+            self.broadcast(commandEvent, value);
         }; // end singleShotFunc
     }; // end _buildSingleShot
 
     InputManager.prototype._buildMomentary = function(commandEvent, onValue, offValue)
     {
+        var self = this;
         onValue = onValue === undefined ? true : onValue;
         offValue = offValue === undefined ? false : offValue;
 
@@ -38,18 +40,19 @@ function InputManagerFactory($rootScope, configMan, keySvc, sceneMan)
             function momentaryOnFunc()
             {
                 console.log('momentary "%s" set to value:', commandEvent, onValue);
-                $rootScope.$broadcast(commandEvent, onValue);
+                self.broadcast(commandEvent, onValue);
             }, // end momentaryOnFunc
             function momentaryOffFunc()
             {
                 console.log('momentary "%s" reset to value:', commandEvent, offValue);
-                $rootScope.$broadcast(commandEvent, offValue);
+                self.broadcast(commandEvent, offValue);
             } // end momentaryOffFunc
         ]
     }; // end _buildMomentary
 
     InputManager.prototype._buildToggle = function(commandEvent, onValue, offValue)
     {
+        var self = this;
         var value;
         var toggle = false;
         return function toggleFunc()
@@ -58,7 +61,7 @@ function InputManagerFactory($rootScope, configMan, keySvc, sceneMan)
             value = toggle ? (onValue || true) : (offValue || false);
 
             console.log('toggle "%s" with value:', commandEvent, value);
-            $rootScope.$broadcast(commandEvent, value);
+            self.broadcast(commandEvent, value);
         }; // end toggleFunc
     }; // end _buildToggle
 
@@ -96,6 +99,12 @@ function InputManagerFactory($rootScope, configMan, keySvc, sceneMan)
 
         //--------------------------------------------------------------------------------------------------------------
     }; // end reloadConfig
+
+    InputManager.prototype.broadcast = function(event, value)
+    {
+        $rootScope.$broadcast(event, value);
+        socket.event(event, { value: value });
+    }; // end broadcast
 
     // -----------------------------------------------------------------------------------------------------------------
     // Public API
@@ -139,6 +148,7 @@ angular.module('rfi-client.services').service('InputManager', [
     'ConfigurationManager',
     'KeyBindingService',
     'SceneManager',
+    'SocketService',
     InputManagerFactory
 ]);
 
