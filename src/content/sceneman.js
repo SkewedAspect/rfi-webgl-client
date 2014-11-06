@@ -104,7 +104,12 @@ function SceneManagerFactory($rootScope, Loader, babylon)
             return Promise.resolve(this.meshes[meshName])
                 .then(function(mesh)
                 {
-                    return mesh.createInstance();
+                    var instance = mesh.createInstance();
+
+                    // Instances reset their parent's renderingGroupId, so we need to fix it.
+                    instance.renderingGroupId = 1;
+
+                    return instance
                 });
         }
         else
