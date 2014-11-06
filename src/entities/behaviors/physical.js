@@ -6,6 +6,7 @@
 
 var util = require('util');
 
+var _ = require('lodash');
 var rfiPhysics = require('rfi-physics');
 
 var BaseEntity = require('./entity');
@@ -64,11 +65,21 @@ PhysicalEntity.prototype._init = function(babylon, physics)
     Object.defineProperties(this, {
         targetAngularVelocity: {
             get: function(){ return this.targetVelocityController.targetAngularVelocity}.bind(this),
-            set: function(angVel){ this.targetVelocityController.targetAngularVelocity = angVel }.bind(this)
+            set: function(angVel)
+            {
+                this.targetVelocityController.targetAngularVelocity.x = angVel.x;
+                this.targetVelocityController.targetAngularVelocity.y = angVel.y;
+                this.targetVelocityController.targetAngularVelocity.z = angVel.z;
+            }.bind(this)
         },
         targetLinearVelocity: {
             get: function(){ return this.targetVelocityController.targetLinearVelocity}.bind(this),
-            set: function(linVel){ this.targetVelocityController.targetLinearVelocity = linVel }.bind(this)
+            set: function(linVel)
+            {
+                this.targetVelocityController.targetLinearVelocity.x = linVel.x;
+                this.targetVelocityController.targetLinearVelocity.y = linVel.y;
+                this.targetVelocityController.targetLinearVelocity.z = linVel.z;
+            }.bind(this)
         }
     });
 
