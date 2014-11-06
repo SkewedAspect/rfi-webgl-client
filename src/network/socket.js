@@ -31,7 +31,7 @@ function SocketServiceFactory($timeout)
 
         if(this.socket)
         {
-            this.socket.emit.apply(this.socket, arguments);
+            this.socket.emit.apply(this.socket, args);
         } // end if
     };
 
