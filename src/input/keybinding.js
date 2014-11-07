@@ -21,8 +21,9 @@ function KeyBindingServiceFactory($document, $window, $timeout)
 
         // Setup the listener with the right element
         this.listener = new $window.keypress.Listener(elem, {
+            prevent_default: true,
             prevent_repeat: true,
-            is_exclusive: false //true
+            is_exclusive: false
         });
 
         this.initialized = true;
