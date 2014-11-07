@@ -105,7 +105,7 @@ function EntityManagerFactory($injector, socket, avatar, sceneMan, physics)
     {
         if(message.id in this.entities)
         {
-            console.log('applying update:', message);
+            //console.log('applying update:', message);
             _.merge(this.entities[message.id], message);
         }
         else

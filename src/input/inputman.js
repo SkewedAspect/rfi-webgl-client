@@ -25,7 +25,7 @@ function InputManagerFactory($rootScope, configMan, keySvc, sceneMan, socket)
         var self = this;
         return function singleShotFunc()
         {
-            console.log('single-shot "%s" with value:', commandEvent, value);
+            //console.log('single-shot "%s" with value:', commandEvent, value);
             self.broadcast(commandEvent, value);
         }; // end singleShotFunc
     }; // end _buildSingleShot
@@ -39,12 +39,12 @@ function InputManagerFactory($rootScope, configMan, keySvc, sceneMan, socket)
         return [
             function momentaryOnFunc()
             {
-                console.log('momentary "%s" set to value:', commandEvent, onValue);
+                //console.log('momentary "%s" set to value:', commandEvent, onValue);
                 self.broadcast(commandEvent, onValue);
             }, // end momentaryOnFunc
             function momentaryOffFunc()
             {
-                console.log('momentary "%s" reset to value:', commandEvent, offValue);
+                //console.log('momentary "%s" reset to value:', commandEvent, offValue);
                 self.broadcast(commandEvent, offValue);
             } // end momentaryOffFunc
         ];
@@ -60,7 +60,7 @@ function InputManagerFactory($rootScope, configMan, keySvc, sceneMan, socket)
             toggle = !toggle;
             value = toggle ? (onValue || true) : (offValue || false);
 
-            console.log('toggle "%s" with value:', commandEvent, value);
+            //console.log('toggle "%s" with value:', commandEvent, value);
             self.broadcast(commandEvent, value);
         }; // end toggleFunc
     }; // end _buildToggle

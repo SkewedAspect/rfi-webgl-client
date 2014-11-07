@@ -33,12 +33,13 @@ function PhysicsServiceFactory(babylon, sceneMan)
     PhysicsService.prototype.start = function()
     {
         this.lastTimeStamp = now();
-        sceneMan.on('before render', this._renderFrame.bind(this));
+        //sceneMan.on('before render', this._renderFrame.bind(this));
+        this.engine.loop();
     }; // end start
 
     PhysicsService.prototype.stop = function()
     {
-        sceneMan.removeListener('before render', this._renderFrame.bind(this));
+        //sceneMan.removeListener('before render', this._renderFrame.bind(this));
     }; // end stop
 
     // -----------------------------------------------------------------------------------------------------------------
