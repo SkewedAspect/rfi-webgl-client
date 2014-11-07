@@ -47,7 +47,7 @@ function InputManagerFactory($rootScope, configMan, keySvc, sceneMan, socket)
                 console.log('momentary "%s" reset to value:', commandEvent, offValue);
                 self.broadcast(commandEvent, offValue);
             } // end momentaryOffFunc
-        ]
+        ];
     }; // end _buildMomentary
 
     InputManager.prototype._buildToggle = function(commandEvent, onValue, offValue)

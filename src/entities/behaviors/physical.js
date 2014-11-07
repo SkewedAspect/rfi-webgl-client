@@ -64,7 +64,7 @@ PhysicalEntity.prototype._init = function(babylon, physics)
 
     Object.defineProperties(this, {
         targetAngularVelocity: {
-            get: function(){ return this.targetVelocityController.targetAngularVelocity}.bind(this),
+            get: function() { return this.targetVelocityController.targetAngularVelocity; }.bind(this),
             set: function(angVel)
             {
                 this.targetVelocityController.targetAngularVelocity.x = angVel.x;
@@ -73,7 +73,7 @@ PhysicalEntity.prototype._init = function(babylon, physics)
             }.bind(this)
         },
         targetLinearVelocity: {
-            get: function(){ return this.targetVelocityController.targetLinearVelocity}.bind(this),
+            get: function() { return this.targetVelocityController.targetLinearVelocity; }.bind(this),
             set: function(linVel)
             {
                 this.targetVelocityController.targetLinearVelocity.x = linVel.x;
@@ -122,7 +122,7 @@ angular.module('rfi-client.behaviors').factory('PhysicalEntity', [
             var physical = new PhysicalEntity(entityDef, controller);
             physical._init(babylon, physics);
 
-            return physical
+            return physical;
         };
     }
 ]);
