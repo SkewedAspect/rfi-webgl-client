@@ -21,7 +21,7 @@ describe('SceneManager', function()
     {
         expect(function()
         {
-            throw new Error("Not implemented")
+            throw new Error("Not implemented");
         }).not.toThrow();
     });
 });

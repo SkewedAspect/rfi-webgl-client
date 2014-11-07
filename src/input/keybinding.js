@@ -25,7 +25,7 @@ function KeyBindingServiceFactory($document, $window, $timeout)
             is_exclusive: false //true
         });
 
-        this.initialized = true
+        this.initialized = true;
     }; // end init
 
     KeyBindingService.prototype._wrapCallback = function(callback)
@@ -37,7 +37,7 @@ function KeyBindingServiceFactory($document, $window, $timeout)
             {
                 callback.apply(callback, args);
             }, 0);
-        }
+        };
     }; // end _wrapCallback
 
     KeyBindingService.prototype.register = function(binding, keyDown, keyUp)
@@ -45,7 +45,7 @@ function KeyBindingServiceFactory($document, $window, $timeout)
         if(!this.listener)
         {
             console.warn("Attempted to register keys before keybinding service has been initialized!");
-            return
+            return;
         } // end if
 
         var newBinding = {};
@@ -94,7 +94,7 @@ function KeyBindingServiceFactory($document, $window, $timeout)
         if(!this.listener)
         {
             console.warn("Attempted to clear key bindings before keybinding service has been initialized!");
-            return
+            return;
         } // end if
 
         this.listener.reset();
