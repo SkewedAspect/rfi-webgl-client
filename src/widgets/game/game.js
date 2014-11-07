@@ -24,7 +24,7 @@ function GameCanvasFactory($window, $timeout, babylon, sceneMan, keySvc)
         this.sun = new BABYLON.HemisphericLight("Hemi0", new BABYLON.Vector3(0, 1, 0), sceneMan.currentScene);
         this.sun.diffuse = new BABYLON.Color3(1, 1, 1);
         this.sun.specular = new BABYLON.Color3(1, 1, 1);
-        this.sun.groundColor = new BABYLON.Color3(.3,.3,.3);
+        this.sun.groundColor = new BABYLON.Color3(0.3, 0.3, 0.3);
     }; // end canvasReady
 
     // -----------------------------------------------------------------------------------------------------------------
