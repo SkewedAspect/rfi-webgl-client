@@ -5,8 +5,9 @@ MMO client will be in pure web technologies.
 
 ## Current Status
 
-Right now, it's able to perform a login with the server, but that's it. Our hope is to replace our current C++/QML 
-client shortly.
+Right now, it's able to perform a login with the server, move around, and share state. Here's a video of the networking:
+
+[![ScreenShot](http://img.youtube.com/vi/D_i3Mz5RMDs/0.jpg)](http://youtu.be/D_i3Mz5RMDs)
 
 ## Development
 
