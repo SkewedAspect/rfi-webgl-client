@@ -109,7 +109,7 @@ function SceneManagerFactory($rootScope, Loader, babylon)
                     // Instances reset their parent's renderingGroupId, so we need to fix it.
                     instance.renderingGroupId = 1;
 
-                    return instance
+                    return instance;
                 });
         }
         else
