@@ -4,6 +4,7 @@
 // @module sync.js
 // ---------------------------------------------------------------------------------------------------------------------
 
+var _ = require('lodash');
 var now = require('rfi-physics').now;
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -20,10 +21,10 @@ function SyncServiceFactory(socket)
     SyncService.prototype = {
         get latency()
         {
-            return _.reduce(this.pingTimes, function(pingSums, ping)
+            return ((_.reduce(this.pingTimes, function(pingSums, ping)
             {
                 return pingSums + ping;
-            }, 0) / 2;
+            }, 0) / this.pingTimes.length) / 2).toFixed(2);
         }
     }; // end prototype
 
@@ -63,7 +64,7 @@ function SyncServiceFactory(socket)
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-angular.module('SyncService').service('SyncService', [
+angular.module('rfi-client.services').service('SyncService', [
     'SocketService',
     SyncServiceFactory
 ]);
