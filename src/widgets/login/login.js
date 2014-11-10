@@ -45,7 +45,7 @@ function LoginController($scope, $timeout, socket, charService, entityMan, syncS
             {
                 if(results.confirm)
                 {
-                    console.log('logged in!');
+                    $scope.$root.$broadcast('successful login');
                     $scope.successful = true;
 
                     // Start the sync service
