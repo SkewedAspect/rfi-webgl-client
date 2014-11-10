@@ -24,7 +24,7 @@ function SyncServiceFactory(socket)
             return ((_.reduce(this.pingTimes, function(pingSums, ping)
             {
                 return pingSums + ping;
-            }, 0) / this.pingTimes.length) / 2).toFixed(2);
+            }, 0) / this.pingTimes.length) || 0 / 2).toFixed(2);
         }
     }; // end prototype
 
