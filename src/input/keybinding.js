@@ -4,11 +4,7 @@
 // @module keybinding.js
 // ---------------------------------------------------------------------------------------------------------------------
 
-var _ = require('lodash');
-
-// ---------------------------------------------------------------------------------------------------------------------
-
-function KeyBindingServiceFactory($document, $window, $timeout)
+function KeyBindingServiceFactory($document, $timeout, keypress, _)
 {
     function KeyBindingService()
     {
@@ -20,7 +16,7 @@ function KeyBindingServiceFactory($document, $window, $timeout)
         console.log('binding to element:', elem);
 
         // Setup the listener with the right element
-        this.listener = new $window.keypress.Listener(elem, {
+        this.listener = new keypress.Listener(elem, {
             prevent_default: true,
             prevent_repeat: true,
             is_exclusive: false
@@ -108,8 +104,9 @@ function KeyBindingServiceFactory($document, $window, $timeout)
 
 angular.module('rfi-client.services').service('KeyBindingService', [
     '$document',
-    '$window',
     '$timeout',
+    'keypress',
+    'lodash',
     KeyBindingServiceFactory
 ]);
 
