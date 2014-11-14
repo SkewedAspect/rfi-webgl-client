@@ -1,3 +1,14 @@
+.game-canvas {
+	/* Dim the rendered scene when it's not focused. */
+	opacity: 0.5;
+
+	/* Hides the text cursor in Firefox. */
+	color: transparent;
+}
+.game-canvas:focus {
+	opacity: 1;
+}
+
 .game-canvas, .game-canvas canvas {
 	margin: 0;
 	padding: 0;

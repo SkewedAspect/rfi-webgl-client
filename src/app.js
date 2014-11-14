@@ -40,7 +40,7 @@ angular.module("rfi-client", [
 // ---------------------------------------------------------------------------------------------------------------------
 
 angular.module("rfi-client.controllers", []);
-angular.module("rfi-client.services", ['babylon']);
+angular.module("rfi-client.services", ['babylon', 'keypress', 'lodash']);
 angular.module("rfi-client.directives", []);
 angular.module("rfi-client.widgets", ['babylon']);
 angular.module("rfi-client.behaviors", []);
