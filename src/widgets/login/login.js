@@ -4,7 +4,7 @@
 // @module login.js
 // ---------------------------------------------------------------------------------------------------------------------
 
-function LoginController($scope, $timeout, socket, charService, entityMan, confMan)
+function LoginController($scope, $timeout, socket, charService, entityMan, syncService, confMan)
 {
     $scope.form = {};
     $scope.selected = {};
@@ -45,8 +45,11 @@ function LoginController($scope, $timeout, socket, charService, entityMan, confM
             {
                 if(results.confirm)
                 {
-                    console.log('logged in!');
+                    $scope.$root.$broadcast('successful login');
                     $scope.successful = true;
+
+                    // Start the sync service
+                    syncService.start();
 
                     $timeout(function()
                     {
@@ -81,6 +84,7 @@ angular.module('rfi-client.widgets').controller('LoginController', [
     'SocketService',
     'CharacterService',
     'EntityManager',    //TODO: Inject this in a more logical location once one exists!
+    'SyncService',
     'ConfigurationManager',
     LoginController
 ]);
