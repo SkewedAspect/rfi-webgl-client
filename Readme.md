@@ -1,5 +1,7 @@
-[![Stories in Ready](https://badge.waffle.io/SkewedAspect/rfi-webgl-client.png?label=ready&title=Ready)](https://waffle.io/SkewedAspect/rfi-webgl-client)
+
 # RFI: Precursors Client
+
+[![Stories in Ready](https://badge.waffle.io/SkewedAspect/rfi-webgl-client.png?label=ready&title=Ready)](https://waffle.io/SkewedAspect/rfi-webgl-client)
 
 This is a WebGL client for the RFI: Precursors MMORPG. It is an experimental endeavour, attempting to see how viable an
 MMO client will be in pure web technologies.
