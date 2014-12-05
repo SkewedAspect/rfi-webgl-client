@@ -22,10 +22,11 @@ function SyncServiceFactory(socket)
     SyncService.prototype = {
         get latency()
         {
-            return ((_.reduce(this.pingTimes, function(pingSums, ping)
-            {
-                return pingSums + ping;
-            }, 0) / this.pingTimes.length) || 0 / 2).toFixed(2);
+            var sumOfPingTimes = _.reduce(this.pingTimes,
+                function(sum, ping) { return sum + ping; },
+                0);
+
+            return ((sumOfPingTimes / this.pingTimes.length) / 2).toFixed(2);
         }
     }; // end prototype
 
