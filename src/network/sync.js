@@ -16,6 +16,7 @@ function SyncServiceFactory(socket)
         this.windowSize = 10;
         this.pingInterval = 5000;
         this.pingTimes = [];
+        this.running = false;
     } // end SyncService
 
     SyncService.prototype = {
@@ -43,19 +44,29 @@ function SyncServiceFactory(socket)
             {
                 self.pingTimes.splice(0, overflow);
             } // end if
+
+            if(self.running)
+            {
+                self.timeoutHandle = setTimeout(this._ping.bind(this), this.pingInterval);
+            } // end if
         });
     }; // end _ping
 
     SyncService.prototype.start = function()
     {
-        this.intervalHandle = setInterval(this._ping.bind(this), this.pingInterval);
+        if(!this.running)
+        {
+            this.running = true;
+            this.timeoutHandle = setTimeout(this._ping.bind(this), this.pingInterval);
+        } // end if
     }; // end start
 
     SyncService.prototype.stop = function()
     {
-        if(this.intervalHandle)
+        this.running = false;
+        if(this.timeoutHandle)
         {
-            clearInterval(this.intervalHandle);
+            clearTimeout(this.timeoutHandle);
         } // end if
     }; // end stop
 
