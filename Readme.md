@@ -1,7 +1,8 @@
 
 # RFI: Precursors Client
 
-[![Stories in Ready](https://badge.waffle.io/SkewedAspect/rfi-webgl-client.png?label=ready&title=Ready)](https://waffle.io/SkewedAspect/rfi-webgl-client)
+[![Issues in Ready](https://badge.waffle.io/SkewedAspect/rfi-webgl-client.png?label=ready&title=Ready Issues)](https://waffle.io/SkewedAspect/rfi-webgl-client)
+[![Issues in Progress](https://badge.waffle.io/SkewedAspect/rfi-webgl-client.png?label=in progress&title=In Progress Issues)](https://waffle.io/SkewedAspect/rfi-webgl-client)
 
 This is a WebGL client for the RFI: Precursors MMORPG. It is an experimental endeavour, attempting to see how viable an
 MMO client will be in pure web technologies.
@@ -45,6 +46,14 @@ We welcome any contributions through the normal GitHub workflow: fork the reposi
 * Must be reviewed by one of the core team prior to merging
 
 We, of course, reserve the right not to merge any contributions. That being said, we're more than willing to dicuss changes, no matter how radical, if the pros outweigh the cons. If in doubt, before you do all this work, open an issue and start a discussion on the topic. Once a concensus emrges, then do your changes.
+
+#### Looking for something to do?
+
+If you're looking for something to do, check out our waffle.io board:
+
+* [https://waffle.io/SkewedAspect/rfi-webgl-client](https://waffle.io/SkewedAspect/rfi-webgl-client)
+
+Just grab anything in the 'Ready' column.
 
 ## Related Projects
 
