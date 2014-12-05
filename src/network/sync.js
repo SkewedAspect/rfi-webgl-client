@@ -9,7 +9,7 @@ var now = require('rfi-physics').now;
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-function SyncServiceFactory(socket)
+function SyncServiceFactory($rootScope, socket)
 {
     function SyncService()
     {
@@ -39,7 +39,13 @@ function SyncServiceFactory(socket)
             var sumOfPingTimes = _.reduce(this.pingTimes,
                 function(sum, ping) { return sum + ping; },
                 0);
+            var lastLatency = this.latency;
             this.latency = ((sumOfPingTimes / this.pingTimes.length) / 2).toFixed(2);
+
+            if(this.latency != lastLatency)
+            {
+                $rootScope.$broadcast('syncService.latencyChanged');
+            } // end if
 
             if(self.running)
             {
