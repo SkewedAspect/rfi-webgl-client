@@ -40,11 +40,10 @@ function SyncServiceFactory(socket)
             self.pingTimes.push(pingTime);
 
             // Stay inside our window size
-            var overflow = self.pingTimes.length - self.windowSize;
-            if(overflow > 0)
+            while(self.pingTimes.length > self.windowSize)
             {
-                self.pingTimes.splice(0, overflow);
-            } // end if
+                self.pingTimes.shift();
+            } // end while
 
             if(self.running)
             {
