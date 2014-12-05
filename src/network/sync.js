@@ -16,19 +16,9 @@ function SyncServiceFactory(socket)
         this.windowSize = 10;
         this.pingInterval = 5000;
         this.pingTimes = [];
+        this.latency = 0;
         this.running = false;
     } // end SyncService
-
-    SyncService.prototype = {
-        get latency()
-        {
-            var sumOfPingTimes = _.reduce(this.pingTimes,
-                function(sum, ping) { return sum + ping; },
-                0);
-
-            return ((sumOfPingTimes / this.pingTimes.length) / 2).toFixed(2);
-        }
-    }; // end prototype
 
     SyncService.prototype._ping = function()
     {
@@ -44,6 +34,12 @@ function SyncServiceFactory(socket)
             {
                 self.pingTimes.shift();
             } // end while
+
+            // Recalculate average latency (one-way) from accumulated ping measurements (round-trip).
+            var sumOfPingTimes = _.reduce(this.pingTimes,
+                function(sum, ping) { return sum + ping; },
+                0);
+            this.latency = ((sumOfPingTimes / this.pingTimes.length) / 2).toFixed(2);
 
             if(self.running)
             {
