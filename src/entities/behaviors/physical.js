@@ -87,7 +87,7 @@ PhysicalEntity.prototype._init = function(babylon, physics)
         },
         orientation: {
             get: function(){ return this.body.quaternion; },
-            set: function(orientation){ this.body.quaternion.set(orientation.x, orientation.y, orientation.z, orientation.w) }
+            set: function(orientation){ this.body.quaternion.set(orientation.x, orientation.y, orientation.z, orientation.w); }
         }
     });
 
