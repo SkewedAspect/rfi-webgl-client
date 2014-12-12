@@ -47,7 +47,7 @@ function SyncServiceFactory($rootScope, socket)
 
             if(self.latency != lastLatency)
             {
-                $rootScope.$broadcast('syncService.latencyChanged');
+                $rootScope.$broadcast('syncService.latencyChanged', self.latency);
             } // end if
 
             if(self.running)
