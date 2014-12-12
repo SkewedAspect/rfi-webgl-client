@@ -36,20 +36,20 @@ function SyncServiceFactory($rootScope, socket)
             } // end while
 
             // Recalculate average latency (one-way) from accumulated ping measurements (round-trip).
-            var sumOfPingTimes = _.reduce(this.pingTimes,
+            var sumOfPingTimes = _.reduce(self.pingTimes,
                 function(sum, ping) { return sum + ping; },
                 0);
-            var lastLatency = this.latency;
-            this.latency = ((sumOfPingTimes / this.pingTimes.length) / 2).toFixed(2);
+            var lastLatency = self.latency;
+            self.latency = ((sumOfPingTimes / self.pingTimes.length) / 2).toFixed(2);
 
-            if(this.latency != lastLatency)
+            if(self.latency != lastLatency)
             {
                 $rootScope.$broadcast('syncService.latencyChanged');
             } // end if
 
             if(self.running)
             {
-                self.timeoutHandle = setTimeout(this._ping.bind(this), this.pingInterval);
+                self.timeoutHandle = setTimeout(self._ping.bind(self), self.pingInterval);
             } // end if
         });
     }; // end _ping
@@ -78,6 +78,7 @@ function SyncServiceFactory($rootScope, socket)
 // ---------------------------------------------------------------------------------------------------------------------
 
 angular.module('rfi-client.services').service('SyncService', [
+    '$rootScope',
     'SocketService',
     SyncServiceFactory
 ]);
