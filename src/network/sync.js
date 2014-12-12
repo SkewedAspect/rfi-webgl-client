@@ -9,24 +9,19 @@ var now = require('rfi-physics').now;
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-function SyncServiceFactory(socket)
+function SyncServiceFactory($rootScope, socket)
 {
     function SyncService()
     {
         this.windowSize = 10;
         this.pingInterval = 5000;
         this.pingTimes = [];
-    } // end SyncService
+        this.latency = 0;
+        this.running = false;
 
-    SyncService.prototype = {
-        get latency()
-        {
-            return ((_.reduce(this.pingTimes, function(pingSums, ping)
-            {
-                return pingSums + ping;
-            }, 0) / this.pingTimes.length) || 0 / 2).toFixed(2);
-        }
-    }; // end prototype
+        // Pre-bind #stop() so we can use it as an event handler, and remove it later.
+        this.stop = this.stop.bind(this);
+    } // end SyncService
 
     SyncService.prototype._ping = function()
     {
@@ -38,24 +33,49 @@ function SyncServiceFactory(socket)
             self.pingTimes.push(pingTime);
 
             // Stay inside our window size
-            var overflow = self.pingTimes.length - self.windowSize;
-            if(overflow > 0)
+            while(self.pingTimes.length > self.windowSize)
             {
-                self.pingTimes.splice(0, overflow);
+                self.pingTimes.shift();
+            } // end while
+
+            // Recalculate average latency (one-way) from accumulated ping measurements (round-trip).
+            var sumOfPingTimes = _.reduce(self.pingTimes,
+                function(sum, ping) { return sum + ping; },
+                0);
+            var lastLatency = self.latency;
+            self.latency = ((sumOfPingTimes / self.pingTimes.length) / 2).toFixed(2);
+
+            if(self.latency != lastLatency)
+            {
+                $rootScope.$broadcast('syncService.latencyChanged', self.latency);
+            } // end if
+
+            if(self.running)
+            {
+                self.timeoutHandle = setTimeout(self._ping.bind(self), self.pingInterval);
             } // end if
         });
     }; // end _ping
 
     SyncService.prototype.start = function()
     {
-        this.intervalHandle = setInterval(this._ping.bind(this), this.pingInterval);
+        if(!this.running)
+        {
+            this.running = true;
+            this.timeoutHandle = setTimeout(this._ping.bind(this), this.pingInterval);
+            socket.socket.on('disconnect', this.stop);
+            socket.socket.on('reconnect_failed', this.stop);
+        } // end if
     }; // end start
 
     SyncService.prototype.stop = function()
     {
-        if(this.intervalHandle)
+        this.running = false;
+        if(this.timeoutHandle)
         {
-            clearInterval(this.intervalHandle);
+            socket.socket.removeListener('disconnect', this.stop);
+            socket.socket.removeListener('reconnect_failed', this.stop);
+            clearTimeout(this.timeoutHandle);
         } // end if
     }; // end stop
 
@@ -65,6 +85,7 @@ function SyncServiceFactory(socket)
 // ---------------------------------------------------------------------------------------------------------------------
 
 angular.module('rfi-client.services').service('SyncService', [
+    '$rootScope',
     'SocketService',
     SyncServiceFactory
 ]);

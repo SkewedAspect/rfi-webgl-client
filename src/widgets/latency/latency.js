@@ -9,14 +9,16 @@ function latencyFactory(syncService)
     function latencyController($scope)
     {
         $scope.loggedIn = false;
+        $scope.latency = 0;
 
         $scope.$on('successful login', function()
         {
             $scope.loggedIn = true;
         });
 
-        Object.defineProperty($scope, 'latency', {
-            get: function(){ return syncService.latency; }
+        $scope.$on('syncService.latencyChanged', function(_event, latency)
+        {
+            $scope.latency = latency;
         });
     } // end latencyController
 
