@@ -30,7 +30,7 @@ function SocketServiceFactory($timeout)
         {
             this.socket.emit('event', eventName, payload);
         } // end if
-    };
+    }; // end event
 
     SocketService.prototype.request = function()
     {
@@ -62,7 +62,7 @@ function SocketServiceFactory($timeout)
                 } // end if
             }
         );
-    }; // end emit
+    }; // end request
 
     SocketService.prototype._handleEvent = function()
     {
