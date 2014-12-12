@@ -18,6 +18,9 @@ function SyncServiceFactory($rootScope, socket)
         this.pingTimes = [];
         this.latency = 0;
         this.running = false;
+
+        // Pre-bind #stop() so we can use it as an event handler, and remove it later.
+        this.stop = this.stop.bind(this);
     } // end SyncService
 
     SyncService.prototype._ping = function()
@@ -60,6 +63,8 @@ function SyncServiceFactory($rootScope, socket)
         {
             this.running = true;
             this.timeoutHandle = setTimeout(this._ping.bind(this), this.pingInterval);
+            socket.socket.on('disconnect', this.stop);
+            socket.socket.on('reconnect_failed', this.stop);
         } // end if
     }; // end start
 
@@ -68,6 +73,8 @@ function SyncServiceFactory($rootScope, socket)
         this.running = false;
         if(this.timeoutHandle)
         {
+            socket.socket.removeListener('disconnect', this.stop);
+            socket.socket.removeListener('reconnect_failed', this.stop);
             clearTimeout(this.timeoutHandle);
         } // end if
     }; // end stop
