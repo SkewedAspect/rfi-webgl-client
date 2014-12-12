@@ -24,14 +24,11 @@ function SocketServiceFactory($timeout)
         this.socket.on('event', this._handleEvent.bind(this));
     }; // end connect
 
-    SocketService.prototype.event = function()
+    SocketService.prototype.event = function(eventName, payload)
     {
-        var args = Array.prototype.slice.call(arguments);
-        args.unshift('event');
-
         if(this.socket)
         {
-            this.socket.emit.apply(this.socket, args);
+            this.socket.emit('event', eventName, payload);
         } // end if
     };
 
