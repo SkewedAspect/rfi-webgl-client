@@ -16,7 +16,7 @@ module.exports = function(config)
             'tests/**/*.spec.js'
         ],
         frameworks: ['jasmine'],
-        browsers: ['Chrome'],   //TODO: We probably should test in Firefox as well
+        browsers: ['Chrome', 'Firefox'],   //TODO: We probably should test in Firefox as well
         reporters: ['spec'],
         singleRun: true
     });
