@@ -1,7 +1,7 @@
 
 # RFI: Precursors Client
 
-[![Build Status](https://travis-ci.org/SkewedAspect/rfi-webgl-client.svg?branch=ccase-travis-ci)](https://travis-ci.org/SkewedAspect/rfi-webgl-client)
+[![Build Status](https://travis-ci.org/SkewedAspect/rfi-webgl-client.svg)](https://travis-ci.org/SkewedAspect/rfi-webgl-client)
 [![Issues in Ready](https://badge.waffle.io/SkewedAspect/rfi-webgl-client.png?label=ready&title=Ready Issues)](https://waffle.io/SkewedAspect/rfi-webgl-client)
 [![Issues in Progress](https://badge.waffle.io/SkewedAspect/rfi-webgl-client.png?label=in progress&title=In Progress Issues)](https://waffle.io/SkewedAspect/rfi-webgl-client)
 [![Issues Needing Review](https://badge.waffle.io/SkewedAspect/rfi-webgl-client.png?label=needs review&title=Issues Needing Review)](https://waffle.io/SkewedAspect/rfi-webgl-client)
