@@ -6,5 +6,8 @@
 # build artifacts
 dist
 
+# bower artifacts
+static/vendor
+
 # Node artifacts
 node_modules
