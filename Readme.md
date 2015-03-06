@@ -5,6 +5,7 @@
 [![Issues in Ready](https://badge.waffle.io/SkewedAspect/rfi-webgl-client.png?label=ready&title=Ready Issues)](https://waffle.io/SkewedAspect/rfi-webgl-client)
 [![Issues in Progress](https://badge.waffle.io/SkewedAspect/rfi-webgl-client.png?label=in progress&title=In Progress Issues)](https://waffle.io/SkewedAspect/rfi-webgl-client)
 [![Issues Needing Review](https://badge.waffle.io/SkewedAspect/rfi-webgl-client.png?label=needs review&title=Issues Needing Review)](https://waffle.io/SkewedAspect/rfi-webgl-client)
+[![Issues we need help with](https://badge.waffle.io/SkewedAspect/rfi-webgl-client.png?label=help wanted&title=Help Wanted)](https://waffle.io/SkewedAspect/rfi-webgl-client)
 
 This is a WebGL client for the RFI: Precursors MMORPG. It is an experimental endeavour, attempting to see how viable an
 MMO client will be in pure web technologies.
@@ -51,11 +52,11 @@ We, of course, reserve the right not to merge any contributions. That being said
 
 #### Looking for something to do?
 
-If you're looking for something to do, check out our waffle.io board:
+If you're looking for something to do, check out the issues we want help with:
 
-* [https://waffle.io/SkewedAspect/rfi-webgl-client](https://waffle.io/SkewedAspect/rfi-webgl-client)
+[![Issues we need help with](https://badge.waffle.io/SkewedAspect/rfi-webgl-client.png?label=help wanted&title=Help Wanted)](https://waffle.io/SkewedAspect/rfi-webgl-client)
 
-Just grab anything in the 'Ready' column.
+Feel free to grab any item with the `needs help` label. If none of those strike your fancy, you can grab anything with the `ready` label, and those are the issues we're looking to tackle in the current sprint.
 
 ## Related Projects
 
