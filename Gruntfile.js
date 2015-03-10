@@ -41,10 +41,14 @@ module.exports = function(grunt)
                 ]
             }
         },
-        browserify: {
+        uglify: {
             dist: {
+                options: {
+                    sourceMap: true,
+                    sourceMapIncludeSources: true
+                },
                 files: {
-                    'dist/js/rfi-client.js': ['src/app.js', '<%= project.js %>']
+                    'dist/js/rfi-client.min.js': ['src/app.js', '<%= project.js %>']
                 }
             }
         },
@@ -69,9 +73,9 @@ module.exports = function(grunt)
                     atBegin: true
                 }
             },
-            browserify: {
+            uglify: {
                 files: ['<%= project.js %>'],
-                tasks: ['browserify'],
+                tasks: ['uglify'],
                 options: {
                     atBegin: true
                 }
@@ -92,12 +96,12 @@ module.exports = function(grunt)
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-contrib-copy');
-    grunt.loadNpmTasks('grunt-browserify');
     grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
 
     // Setup the build task.
-    grunt.registerTask('build', ['clean', 'less', 'copy', 'browserify']);
+    grunt.registerTask('build', ['clean', 'less', 'copy', 'uglify']);
     grunt.registerTask('test', ['build', 'karma:unit']);
     grunt.registerTask('devel', ['clean', 'connect', 'watch']);
 }; // module.exports
