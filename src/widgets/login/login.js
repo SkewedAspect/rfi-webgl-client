@@ -13,7 +13,7 @@ function LoginController($scope, $timeout, socket, charService, entityMan, syncS
 
     $scope.login = function()
     {
-        socket.request('login', $scope.form)
+        socket.makeRequest('login', $scope.form)
             .spread(function(results)
             {
                 if(results.confirm)
@@ -40,7 +40,7 @@ function LoginController($scope, $timeout, socket, charService, entityMan, syncS
             character:  $scope.selected.id
         };
 
-        socket.request('select character', query)
+        socket.makeRequest('select character', query)
             .spread(function(results)
             {
                 if(results.confirm)

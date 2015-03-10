@@ -5,14 +5,8 @@
 // ---------------------------------------------------------------------------------------------------------------------
 /* global angular: true */
 
-var path = require('path');
-
-// ---------------------------------------------------------------------------------------------------------------------
-
-function LoaderFactory(babylon)
+function LoaderFactory(babylon, Promise, path)
 {
-    var Promise = require('bluebird');
-
     function doProgress(progress)
     {
         //TODO: Do something useful with progress.
@@ -43,7 +37,7 @@ function LoaderFactory(babylon)
         })
         .tap(function(newScene)
         {
-            console.log("New scene %j loaded.", fileName);
+            console.log("New scene '%j' loaded.", fileName);
         });
     }; // end loadScene
 
@@ -102,6 +96,11 @@ function LoaderFactory(babylon)
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-angular.module('rfi-client.services').service('Loader', ['babylon', LoaderFactory]);
+angular.module('rfi-client.services').service('Loader', [
+    'babylon',
+    'bluebird',
+    'path',
+    LoaderFactory
+]);
 
 // ---------------------------------------------------------------------------------------------------------------------

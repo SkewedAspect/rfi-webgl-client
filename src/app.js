@@ -5,13 +5,16 @@
 // ---------------------------------------------------------------------------------------------------------------------
 /* global angular: true */
 
-var Promise = require('bluebird');
-
-// ---------------------------------------------------------------------------------------------------------------------
-
 angular.module("rfi-client", [
         'ngRoute',
 
+        'path',
+        'lodash',
+        'bluebird',
+        'eventemitter2',
+        'rfi-physics',
+
+        'rfi-client.utils',
         'rfi-client.controllers',
         'rfi-client.services',
         'rfi-client.directives',
@@ -30,7 +33,7 @@ angular.module("rfi-client", [
 
         window.socket = socket;
     }])
-    .run(['$rootScope', function($rootScope)
+    .run(['$rootScope', 'bluebird', function($rootScope, Promise)
     {
         Promise.setScheduler(function(fn) {
             $rootScope.$evalAsync(fn);
@@ -39,10 +42,11 @@ angular.module("rfi-client", [
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-angular.module("rfi-client.controllers", []);
-angular.module("rfi-client.services", ['babylon', 'keypress', 'lodash']);
-angular.module("rfi-client.directives", []);
 angular.module("rfi-client.widgets", ['babylon']);
+angular.module("rfi-client.services", ['babylon', 'keypress', 'lodash']);
+angular.module("rfi-client.utils", ['rfi-client.services']);
+angular.module("rfi-client.controllers", []);
+angular.module("rfi-client.directives", []);
 angular.module("rfi-client.behaviors", []);
 
 // ---------------------------------------------------------------------------------------------------------------------

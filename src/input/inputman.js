@@ -4,12 +4,7 @@
 // @module inputman.js
 // ---------------------------------------------------------------------------------------------------------------------
 
-var _ = require('lodash');
-var Promise = require('bluebird');
-
-// ---------------------------------------------------------------------------------------------------------------------
-
-function InputManagerFactory($rootScope, configMan, keySvc, sceneMan, socket)
+function InputManagerFactory($rootScope, _, socket, configMan, keySvc, sceneMan)
 {
     function InputManager()
     {
@@ -103,7 +98,7 @@ function InputManagerFactory($rootScope, configMan, keySvc, sceneMan, socket)
     InputManager.prototype.broadcast = function(event, value)
     {
         $rootScope.$broadcast(event, value);
-        socket.event(event, { value: value });
+        socket.sendEvent(event, { value: value });
     }; // end broadcast
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -145,10 +140,11 @@ function InputManagerFactory($rootScope, configMan, keySvc, sceneMan, socket)
 
 angular.module('rfi-client.services').service('InputManager', [
     '$rootScope',
+    'lodash',
+    'SocketService',
     'ConfigurationManager',
     'KeyBindingService',
     'SceneManager',
-    'SocketService',
     InputManagerFactory
 ]);
 

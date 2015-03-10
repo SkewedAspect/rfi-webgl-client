@@ -5,11 +5,7 @@
 // ---------------------------------------------------------------------------------------------------------------------
 /* global angular: true */
 
-var Promise = require('bluebird');
-
-// ---------------------------------------------------------------------------------------------------------------------
-
-function GameCanvasFactory($window, $timeout, babylon, sceneMan, keySvc)
+function GameCanvasFactory($window, $timeout, babylon, Promise, sceneMan, keySvc)
 {
     var isSupported = babylon.Engine.isSupported();
 
@@ -135,6 +131,7 @@ angular.module('rfi-client.widgets').directive('gameCanvas', [
     '$window',
     '$timeout',
     'babylon',
+    'bluebird',
     'SceneManager',
     'KeyBindingService',
     GameCanvasFactory

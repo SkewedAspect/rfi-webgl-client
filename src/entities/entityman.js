@@ -4,12 +4,7 @@
 // @module entityman.js
 // ---------------------------------------------------------------------------------------------------------------------
 
-var _ = require('lodash');
-var Promise = require('bluebird');
-
-// ---------------------------------------------------------------------------------------------------------------------
-
-function EntityManagerFactory($injector, socket, avatar, sceneMan, physics)
+function EntityManagerFactory($injector, _, Promise, socket, avatar, sceneMan, physics)
 {
     function EntityManager()
     {
@@ -47,7 +42,7 @@ function EntityManagerFactory($injector, socket, avatar, sceneMan, physics)
             // We instantiate the behavior class as the entity. This way, internally, behaviors can simply use `this` to
             // refer to the entity, as opposed to having to pass the entity into the behaviors.
             var BehaviorFactoryName = this.behaviors[entityDef.behavior];
-            var entity = $injector.get(BehaviorFactoryName)(entityDef, socket);
+            var entity = new ($injector.get(BehaviorFactoryName))(entityDef, socket);
 
             // Add the newly created entity to our list of entities.
             this.entities[entity.id] = entity;
@@ -126,6 +121,8 @@ function EntityManagerFactory($injector, socket, avatar, sceneMan, physics)
 
 angular.module('rfi-client.services').service('EntityManager', [
         '$injector',
+        'lodash',
+        'bluebird',
         'SocketService',
         'AvatarService',
         'SceneManager',

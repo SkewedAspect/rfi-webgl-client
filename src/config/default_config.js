@@ -4,7 +4,7 @@
 // @module default_config.js
 // ---------------------------------------------------------------------------------------------------------------------
 
-module.exports = {
+angular.module('rfi-client.services').value('defaultConfig', {
     keyboard: {
         'w': {
             command: 'pitch',
@@ -52,6 +52,6 @@ module.exports = {
             value: ['arg1', 0.99, true]
         }
     }
-}; // end exports
+}); // end defaultConfig
 
 // ---------------------------------------------------------------------------------------------------------------------

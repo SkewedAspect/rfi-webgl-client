@@ -4,12 +4,7 @@
 // @module configman.js
 // ---------------------------------------------------------------------------------------------------------------------
 
-var _ = require('lodash');
-var defaultConfig = require('./default_config');
-
-// ---------------------------------------------------------------------------------------------------------------------
-
-function ConfigurationManagerFactory($rootScope, socket, local)
+function ConfigurationManagerFactory($rootScope, _, defaultConfig, socket, local)
 {
     function ConfigurationManager()
     {
@@ -19,7 +14,7 @@ function ConfigurationManagerFactory($rootScope, socket, local)
     ConfigurationManager.prototype.getConfigs = function()
     {
         var self = this;
-        socket.request('get config')
+        socket.makeRequest('get config')
             .spread(function(results) {
                 if(results.confirm)
                 {
@@ -61,7 +56,7 @@ function ConfigurationManagerFactory($rootScope, socket, local)
 
     ConfigurationManager.prototype.saveConfig = function(newConfig)
     {
-        socket.request('save config', newConfig)
+        socket.makeRequest('save config', newConfig)
             .then(function(response)
             {
                 // TODO: handle errors here
@@ -76,6 +71,8 @@ function ConfigurationManagerFactory($rootScope, socket, local)
 
 angular.module('rfi-client.services').service('ConfigurationManager',  [
     '$rootScope',
+    'lodash',
+    'defaultConfig',
     'SocketService',
     'LocalStorageService',
     ConfigurationManagerFactory

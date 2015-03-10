@@ -4,13 +4,10 @@
 // @module physics.js
 // ---------------------------------------------------------------------------------------------------------------------
 
-var rfiPhysics = require('rfi-physics');
-var now = rfiPhysics.now;
-
-// ---------------------------------------------------------------------------------------------------------------------
-
-function PhysicsServiceFactory(babylon, sceneMan)
+function PhysicsServiceFactory(babylon, rfiPhysics, sceneMan)
 {
+    var now = rfiPhysics.now;
+
     function PhysicsService()
     {
         // The known universe started on Jan 1, 1970.
@@ -59,6 +56,7 @@ function PhysicsServiceFactory(babylon, sceneMan)
 
 angular.module('rfi-client.services').service('PhysicsService', [
     'babylon',
+    'rfi-physics',
     'SceneManager',
     PhysicsServiceFactory
 ]);

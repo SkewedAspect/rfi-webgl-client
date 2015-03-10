@@ -4,15 +4,7 @@
 /// @module sceneman.js
 // ---------------------------------------------------------------------------------------------------------------------
 
-var util = require('util');
-var EventEmitter = require('events').EventEmitter;
-
-var _ = require('lodash');
-var Promise = require('bluebird');
-
-// ---------------------------------------------------------------------------------------------------------------------
-
-function SceneManagerFactory($rootScope, Loader, babylon)
+function SceneManagerFactory($rootScope, _, utils, babylon, Promise, EventEmitter, Loader)
 {
     /**
      * The SceneManager is intended to be the single API for working with BabylonJS's scene and asset loader. It handles
@@ -26,7 +18,7 @@ function SceneManagerFactory($rootScope, Loader, babylon)
         this.meshes = {};
     } // end SceneManager
 
-    util.inherits(SceneManager, EventEmitter);
+    utils.inherits(SceneManager, EventEmitter);
 
     // -----------------------------------------------------------------------------------------------------------------
     // Public
@@ -223,8 +215,12 @@ function SceneManagerFactory($rootScope, Loader, babylon)
 
 angular.module('rfi-client.services').service('SceneManager', [
     '$rootScope',
-    'Loader',
+    'lodash',
+    'utils',
     'babylon',
+    'bluebird',
+    'eventemitter2',
+    'Loader',
     SceneManagerFactory
 ]);
 

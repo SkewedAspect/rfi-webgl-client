@@ -4,17 +4,14 @@
 // @module socket.js
 // ---------------------------------------------------------------------------------------------------------------------
 
-var util = require('util');
-var EventEmitter = require('events').EventEmitter;
-var Promise = require('bluebird');
-
-// ---------------------------------------------------------------------------------------------------------------------
-
-function SocketServiceFactory($timeout)
+function SocketServiceFactory($timeout, Promise, EventEmitter, utils)
 {
-    function SocketService(){}
+    function SocketService()
+    {
+        EventEmitter.call(this);
+    } // end SocketService
 
-    util.inherits(SocketService, EventEmitter);
+    utils.inherits(SocketService, EventEmitter);
 
     SocketService.prototype.connect = function(url)
     {
@@ -24,7 +21,7 @@ function SocketServiceFactory($timeout)
         this.socket.on('event', this._handleEvent.bind(this));
     }; // end connect
 
-    SocketService.prototype.event = function(eventName, payload)
+    SocketService.prototype.sendEvent = function(eventName, payload)
     {
         if(this.socket)
         {
@@ -32,7 +29,7 @@ function SocketServiceFactory($timeout)
         } // end if
     }; // end event
 
-    SocketService.prototype.request = function()
+    SocketService.prototype.makeRequest = function()
     {
         var self = this;
         var args = Array.prototype.slice.call(arguments);
@@ -74,6 +71,12 @@ function SocketServiceFactory($timeout)
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-angular.module('rfi-client.services').service('SocketService', ['$timeout', SocketServiceFactory]);
+angular.module('rfi-client.services').service('SocketService', [
+    '$timeout',
+    'bluebird',
+    'eventemitter2',
+    'utils',
+    SocketServiceFactory
+]);
 
 // ---------------------------------------------------------------------------------------------------------------------

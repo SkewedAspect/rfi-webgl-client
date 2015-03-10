@@ -4,7 +4,7 @@
 // @module keybinding.js
 // ---------------------------------------------------------------------------------------------------------------------
 
-function KeyBindingServiceFactory($document, $timeout, keypress, _)
+function KeyBindingServiceFactory($timeout, keypress, _)
 {
     function KeyBindingService()
     {
@@ -103,7 +103,6 @@ function KeyBindingServiceFactory($document, $timeout, keypress, _)
 // ---------------------------------------------------------------------------------------------------------------------
 
 angular.module('rfi-client.services').service('KeyBindingService', [
-    '$document',
     '$timeout',
     'keypress',
     'lodash',

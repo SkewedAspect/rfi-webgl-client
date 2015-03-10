@@ -4,13 +4,10 @@
 // @module sync.js
 // ---------------------------------------------------------------------------------------------------------------------
 
-var _ = require('lodash');
-var now = require('rfi-physics').now;
-
-// ---------------------------------------------------------------------------------------------------------------------
-
-function SyncServiceFactory($rootScope, socket)
+function SyncServiceFactory($rootScope, _, rfiPhysics, socket)
 {
+    var now = rfiPhysics.now;
+
     function SyncService()
     {
         this.windowSize = 10;
@@ -27,7 +24,7 @@ function SyncServiceFactory($rootScope, socket)
     {
         var self = this;
         var startTime = now();
-        socket.request('ping').then(function()
+        socket.makeRequest('ping').then(function()
         {
             var pingTime = now() - startTime;
             self.pingTimes.push(pingTime);
@@ -86,6 +83,8 @@ function SyncServiceFactory($rootScope, socket)
 
 angular.module('rfi-client.services').service('SyncService', [
     '$rootScope',
+    'lodash',
+    'rfi-physics',
     'SocketService',
     SyncServiceFactory
 ]);

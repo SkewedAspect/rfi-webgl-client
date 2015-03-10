@@ -1,36 +1,32 @@
 // ---------------------------------------------------------------------------------------------------------------------
-// Brief Description of entity.js.
+// The base entity behavior.
 //
 // @module entity.js
 // ---------------------------------------------------------------------------------------------------------------------
 
-var _ = require('lodash');
-
-// ---------------------------------------------------------------------------------------------------------------------
-
-function BaseEntity(entityDef, controller)
+function BaseEntityFactory(_)
 {
-    this.controller = controller;
-
-    // Merge the definition with our instance
-    _.merge(this, entityDef);
-} // end BaseEntity
-
-BaseEntity.prototype.setMesh = function(mesh)
-{
-    this.mesh = mesh;
-}; // end setMesh
-
-// ---------------------------------------------------------------------------------------------------------------------
-
-module.exports = BaseEntity;
-
-angular.module('rfi-client.behaviors').factory('BaseEntity', function()
-{
-    return function(entityDef, controller)
+    function BaseEntity(entityDef, controller)
     {
-        return new BaseEntity(entityDef, controller);
-    };
-});
+        this.controller = controller;
+
+        // Merge the definition with our instance
+        _.merge(this, entityDef);
+    } // end BaseEntity
+
+    BaseEntity.prototype.setMesh = function(mesh)
+    {
+        this.mesh = mesh;
+    }; // end setMesh
+
+    return BaseEntity;
+} // end BaseEntityFactory
+
+// ---------------------------------------------------------------------------------------------------------------------
+
+angular.module('rfi-client.behaviors').factory('BaseEntity', [
+    'lodash',
+    BaseEntityFactory
+]);
 
 // ---------------------------------------------------------------------------------------------------------------------
