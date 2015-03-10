@@ -39,7 +39,7 @@ function GameCanvasFactory($window, $timeout, babylon, Promise, sceneMan, keySvc
                 sceneMan.loadScene()
                     .then(function()
                     {
-                        return sceneMan.createSkybox("models/stars/purplenebula_2048");
+                        return sceneMan.createSkybox("content/models/stars/purplenebula_2048");
                     })
                     .then(function()
                     {
@@ -57,7 +57,7 @@ function GameCanvasFactory($window, $timeout, babylon, Promise, sceneMan, keySvc
                     {
                         console.log('loading asteroids...');
                         return Promise.all([
-                            sceneMan.loadMesh("ScrappleJacks", "models/asteroids/ScrappleJacks.babylon").then(function(mesh)
+                            sceneMan.loadMesh("ScrappleJacks", "content/models/asteroids/ScrappleJacks.babylon").then(function(mesh)
                             {
                                 mesh.position = new babylon.Vector3(300, 0, -250);
                                 mesh.rotation = new babylon.Vector3(20, 5, 0);
@@ -65,33 +65,33 @@ function GameCanvasFactory($window, $timeout, babylon, Promise, sceneMan, keySvc
                                 sceneMan.playerCamera.target = mesh;
                                 sceneMan.playerCamera.setPosition(new babylon.Vector3(0, 10, 0));
                             }),
-                            sceneMan.loadMesh("ScrappleJacks", "models/asteroids/ScrappleJacks.babylon").then(function(mesh)
+                            sceneMan.loadMesh("ScrappleJacks", "content/models/asteroids/ScrappleJacks.babylon").then(function(mesh)
                             {
                                 mesh.position = new babylon.Vector3(1000, 300, -250);
                                 mesh.rotation = new babylon.Vector3(20, 20, 5);
                             }),
-                            sceneMan.loadMesh("ScrappleJacks", "models/asteroids/ScrappleJacks.babylon").then(function(mesh)
+                            sceneMan.loadMesh("ScrappleJacks", "content/models/asteroids/ScrappleJacks.babylon").then(function(mesh)
                             {
                                 mesh.position = new babylon.Vector3(1200, -500, -250);
                                 mesh.rotation = new babylon.Vector3(3.3, 8.2, 65);
                             }),
-                            sceneMan.loadMesh("ScrappleJacks", "models/asteroids/ScrappleJacks.babylon").then(function(mesh)
+                            sceneMan.loadMesh("ScrappleJacks", "content/models/asteroids/ScrappleJacks.babylon").then(function(mesh)
                             {
                                 mesh.position = new babylon.Vector3(1200, -500, 450);
                                 mesh.rotation = new babylon.Vector3(7, 80, 65);
                             }),
-                            sceneMan.loadMesh("BigAssAssTeroid", "models/asteroids/BigAssAssTeroid.babylon").then(function(mesh)
+                            sceneMan.loadMesh("BigAssAssTeroid", "content/models/asteroids/BigAssAssTeroid.babylon").then(function(mesh)
                             {
                                 mesh.position = new babylon.Vector3(300, 1200, 1200);
                                 mesh.rotation = new babylon.Vector3(-3, 0.4, 0);
                                 mesh.scaling = new babylon.Vector3(5, 5, 5);
                             }),
-                            sceneMan.loadMesh("RustyGremlin", "models/asteroids/RustyGremlin.babylon").then(function(mesh)
+                            sceneMan.loadMesh("RustyGremlin", "content/models/asteroids/RustyGremlin.babylon").then(function(mesh)
                             {
                                 mesh.position = new babylon.Vector3(-800, 500, 45);
                                 mesh.rotation = new babylon.Vector3(7, -9, 65);
                             }),
-                            sceneMan.loadMesh("BigAssAssTeroid", "models/asteroids/BigAssAssTeroid.babylon").then(function(mesh)
+                            sceneMan.loadMesh("BigAssAssTeroid", "content/models/asteroids/BigAssAssTeroid.babylon").then(function(mesh)
                             {
                                 mesh.position = new babylon.Vector3(-3800, -1200, -350);
                                 mesh.scaling = new babylon.Vector3(10, 10, 10);

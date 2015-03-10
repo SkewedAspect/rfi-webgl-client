@@ -7,8 +7,8 @@ module.exports = function(grunt)
     // Project configuration.
     grunt.initConfig({
         project: {
-            js: ['src/**/*.js'],
-            less: ['src/less/**/*.less', 'src/widgets/**/*.less']
+            js: ['src/**/*.js', '!src/vendor/**/*.js'],
+            less: ['src/less/**/*.less', 'src/ui/**/*.less']
         },
         less: {
             sleekspace: {
@@ -33,10 +33,9 @@ module.exports = function(grunt)
         copy: {
             main: {
                 files: [
-                    { expand: true, cwd: 'src/widgets/', src:'**/*.html', dest:'dist/partials/' },
-                    { expand: true, cwd: 'static/', src:'fonts/**/*.*', dest:'dist/' },
-                    { expand: true, cwd: 'static/', src:'vendor/**/*.*', dest:'dist/' },
-                    { expand: true, cwd: 'static/', src:'models/**/*.*', dest:'dist/' },
+                    { expand: true, cwd: 'src/ui/', src:'**/*.html', dest:'dist/ui/' },
+                    { expand: true, cwd: 'content/', src:'**/*.*', dest:'dist/content' },
+                    { expand: true, cwd: 'src/', src:'vendor/**/*.*', dest:'dist/' },
                     { expand: true, cwd: 'src/', src:'index.html', dest:'dist/' }
                 ]
             }
@@ -67,7 +66,7 @@ module.exports = function(grunt)
                 }
             },
             copy: {
-                files: ['src/widgets/**/*.html'],
+                files: ['src/ui/**/*.html'],
                 tasks: ['copy'],
                 options: {
                     atBegin: true

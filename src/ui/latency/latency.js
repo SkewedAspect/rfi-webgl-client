@@ -25,7 +25,7 @@ function latencyFactory(syncService)
     return {
         restrict: 'E',
         scope: true,
-        templateUrl: '/partials/latency/latency.html',
+        templateUrl: '/ui/latency/latency.html',
         controller: ['$scope', latencyController]
     };
 } // end latencyFactory

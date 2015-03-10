@@ -7,7 +7,7 @@
 dist
 
 # bower artifacts
-static/vendor
+src/vendor
 
 # Node artifacts
 node_modules
