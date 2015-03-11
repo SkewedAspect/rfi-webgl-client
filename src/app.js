@@ -9,6 +9,7 @@ angular.module("rfi-client", [
         'ngRoute',
 
         'path',
+        'ngToast',
         'lodash',
         'bluebird',
         'eventemitter2',
@@ -21,6 +22,13 @@ angular.module("rfi-client", [
         'rfi-client.widgets',
         'rfi-client.behaviors'
     ])
+    .config(['ngToastProvider', function(ngToastProvider) {
+        ngToastProvider.configure({
+            animation: 'fade',
+            horizontalPosition: 'left',
+            verticalPosition: 'bottom'
+        });
+    }])
     .run(['SocketService', '$location', function(socket, $location)
     {
         var host = $location.protocol() + '://' + $location.host() + ':8008';
@@ -33,10 +41,22 @@ angular.module("rfi-client", [
 
         window.socket = socket;
     }])
-    .run(['$rootScope', 'bluebird', function($rootScope, Promise)
+    .run(['$rootScope', 'bluebird', 'ngToast', function($rootScope, Promise, ngToast)
     {
         Promise.setScheduler(function(fn) {
             $rootScope.$evalAsync(fn);
+        });
+
+        // Register a default error handler
+        window.addEventListener('unhandledrejection', function(error)
+        {
+            error.preventDefault();
+
+            ngToast.create({
+                content: "Unhandled Rejection: " + error.detail.reason,
+                className: 'danger',
+                dismissButton: true
+            });
         });
     }]);
 
