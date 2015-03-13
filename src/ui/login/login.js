@@ -4,15 +4,17 @@
 // @module login.js
 // ---------------------------------------------------------------------------------------------------------------------
 
-function LoginController($scope, $timeout, socket, charService, entityMan, syncService, confMan)
+function LoginController($scope, $timeout, ngToast, socket, charService, entityMan, syncService, confMan)
 {
     $scope.form = {};
     $scope.selected = {};
     $scope.successful = false;
     $scope.hideWindow = false;
+    $scope.error = undefined;
 
     $scope.login = function()
     {
+        $scope.error = undefined;
         socket.makeRequest('login', $scope.form)
             .spread(function(results)
             {
@@ -22,8 +24,17 @@ function LoginController($scope, $timeout, socket, charService, entityMan, syncS
                 }
                 else
                 {
+                    $scope.error = results;
                     console.error(results);
                 } // end if
+            })
+            .catch(function(error)
+            {
+                ngToast.create({
+                    content: "Error logging in: " + error,
+                    className: 'danger',
+                    dismissButton: true
+                });
             });
     }; // end login
 
@@ -81,6 +92,7 @@ angular.module('rfi-client.widgets').directive('login', function()
 angular.module('rfi-client.widgets').controller('LoginController', [
     '$scope',
     '$timeout',
+    'ngToast',
     'SocketService',
     'CharacterService',
     'EntityManager',    //TODO: Inject this in a more logical location once one exists!
