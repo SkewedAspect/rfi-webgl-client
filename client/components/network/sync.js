@@ -24,34 +24,35 @@ function SyncServiceFactory($rootScope, _, rfiPhysics, socket)
     {
         var self = this;
         var startTime = now();
-        socket.makeRequest('ping').then(function()
-        {
-            var pingTime = now() - startTime;
-            self.pingTimes.push(pingTime);
-
-            // Stay inside our window size
-            while(self.pingTimes.length > self.windowSize)
+        socket.makeRequest('ping')
+            .then(function()
             {
-                self.pingTimes.shift();
-            } // end while
+                var pingTime = now() - startTime;
+                self.pingTimes.push(pingTime);
 
-            // Recalculate average latency (one-way) from accumulated ping measurements (round-trip).
-            var sumOfPingTimes = _.reduce(self.pingTimes,
-                function(sum, ping) { return sum + ping; },
-                0);
-            var lastLatency = self.latency;
-            self.latency = ((sumOfPingTimes / self.pingTimes.length) / 2).toFixed(2);
+                // Stay inside our window size
+                while(self.pingTimes.length > self.windowSize)
+                {
+                    self.pingTimes.shift();
+                } // end while
 
-            if(self.latency != lastLatency)
-            {
-                $rootScope.$broadcast('syncService.latencyChanged', self.latency);
-            } // end if
+                // Recalculate average latency (one-way) from accumulated ping measurements (round-trip).
+                var sumOfPingTimes = _.reduce(self.pingTimes,
+                    function(sum, ping) { return sum + ping; },
+                    0);
+                var lastLatency = self.latency;
+                self.latency = ((sumOfPingTimes / self.pingTimes.length) / 2).toFixed(2);
 
-            if(self.running)
-            {
-                self.timeoutHandle = setTimeout(self._ping.bind(self), self.pingInterval);
-            } // end if
-        });
+                if(self.latency != lastLatency)
+                {
+                    $rootScope.$broadcast('syncService.latencyChanged', self.latency);
+                } // end if
+
+                if(self.running)
+                {
+                    self.timeoutHandle = setTimeout(self._ping.bind(self), self.pingInterval);
+                } // end if
+            });
     }; // end _ping
 
     SyncService.prototype.start = function()

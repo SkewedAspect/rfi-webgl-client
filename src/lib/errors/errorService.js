@@ -36,7 +36,7 @@ function ErrorServiceFactory(makeError)
 
     function RequestDeniedError(reason, message)
     {
-        RequestDeniedError.super.call(this, "Request Denied: " + message);
+        RequestDeniedError.super.call(this, message);
 
         this.reason = reason;
     } // end RequestDenied

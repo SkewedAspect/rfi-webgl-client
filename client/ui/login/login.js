@@ -4,7 +4,7 @@
 // @module login.js
 // ---------------------------------------------------------------------------------------------------------------------
 
-function LoginController($scope, $timeout, ngToast, socket, charService, entityMan, syncService, confMan)
+function LoginController($scope, $timeout, ngToast, socket, charService, entityMan, syncService, confMan, errorSvc)
 {
     $scope.form = {};
     $scope.selected = {};
@@ -16,17 +16,14 @@ function LoginController($scope, $timeout, ngToast, socket, charService, entityM
     {
         $scope.error = undefined;
         socket.makeRequest('login', $scope.form)
-            .spread(function(results)
+            .then(function(results)
             {
-                if(results.confirm)
-                {
-                    $scope.characters = results.characters;
-                }
-                else
-                {
-                    $scope.error = results;
-                    console.error(results);
-                } // end if
+                $scope.characters = results.characters;
+            })
+            .catch(errorSvc.RequestDenied, function(error)
+            {
+                $scope.error = error;
+                console.error('Login request denied', error);
             })
             .catch(function(error)
             {
@@ -47,32 +44,33 @@ function LoginController($scope, $timeout, ngToast, socket, charService, entityM
     {
         charService.character = $scope.selected;
 
-        var query = {
-            character:  $scope.selected.id
-        };
+        var query = { character: $scope.selected.id };
 
         socket.makeRequest('select character', query)
-            .spread(function(results)
+            .then(function()
             {
-                if(results.confirm)
+                $scope.$root.$broadcast('successful login');
+                $scope.successful = true;
+
+                // Start the sync service
+                syncService.start();
+
+                $timeout(function()
                 {
-                    $scope.$root.$broadcast('successful login');
-                    $scope.successful = true;
+                    $scope.hideWindow = true;
+                }, 2000);
 
-                    // Start the sync service
-                    syncService.start();
+                confMan.getConfigs();
+            })
+            .catch(errorSvc.RequestDenied, function(error)
+            {
+                console.error(error);
 
-                    $timeout(function()
-                    {
-                        $scope.hideWindow = true;
-                    }, 2000);
-
-                    confMan.getConfigs();
-                }
-                else
-                {
-                    console.error(results);
-                } // end if
+                ngToast.create({
+                    content: "Error logging in: " + error.message,
+                    className: 'danger',
+                    dismissButton: true
+                });
             });
     }; // end submitChar
 } // end LoginController
@@ -98,6 +96,7 @@ angular.module('rfi-client.widgets').controller('LoginController', [
     'EntityManager',    //TODO: Inject this in a more logical location once one exists!
     'SyncService',
     'ConfigurationManager',
+    'ErrorService',
     LoginController
 ]);
 

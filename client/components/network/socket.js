@@ -4,7 +4,7 @@
 // @module socket.js
 // ---------------------------------------------------------------------------------------------------------------------
 
-function SocketServiceFactory($timeout, Promise, EventEmitter, utils)
+function SocketServiceFactory($timeout, Promise, _, EventEmitter, utils, errorSvc)
 {
     function SocketService()
     {
@@ -41,6 +41,19 @@ function SocketServiceFactory($timeout, Promise, EventEmitter, utils)
                 {
                     var args = Array.prototype.slice.call(arguments, 0);
 
+                    var payload = _.first(args);
+                    if(payload && payload.confirm === false)
+                    {
+                        reject(new errorSvc.RequestDenied(payload.reason, payload.message));
+                    } // end if
+
+                    // If all that was sent was a payload object (which should be 100% of the time), then we unwrap it
+                    // from the array.
+                    if(args.length == 1)
+                    {
+                        args = payload;
+                    } // end if
+
                     // By wrapping this in `$timeout(0)`, we schedule this to be run on the next digest cycle,
                     // and handle the need for `$apply`.
                     $timeout(function()
@@ -74,8 +87,10 @@ function SocketServiceFactory($timeout, Promise, EventEmitter, utils)
 angular.module('rfi-client.services').service('SocketService', [
     '$timeout',
     'bluebird',
+    'lodash',
     'eventemitter2',
     'utils',
+    'ErrorService',
     SocketServiceFactory
 ]);
 
