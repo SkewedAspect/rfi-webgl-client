@@ -16,6 +16,27 @@ function SceneManagerFactory($rootScope, _, utils, babylon, Promise, EventEmitte
     {
         EventEmitter.call(this);
         this.meshes = {};
+
+        Object.defineProperties(this, {
+            currentScene: {
+                get: function()
+                {
+                    return this._currentScene;
+                },
+                set: function(val)
+                {
+                    if(this._currentScene)
+                    {
+                        this._currentScene.onPointerDown = undefined;
+                        this._currentScene.onPointerUp = undefined;
+                    }
+
+                    this._currentScene = val;
+                    this._currentScene.onPointerDown = this.emit.bind(this, 'pointerDown');
+                    this._currentScene.onPointerUp = this.emit.bind(this, 'pointerUp');
+                }
+            }
+        })
     } // end SceneManager
 
     utils.inherits(SceneManager, EventEmitter);

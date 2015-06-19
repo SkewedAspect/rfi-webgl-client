@@ -23,6 +23,9 @@ function EntityManagerFactory($injector, _, Promise, socket, avatar, sceneMan, p
         socket.on('inhabit entity', this._handleInhabit.bind(this));
         socket.on('update entity', this._handleUpdate.bind(this));
         socket.on('destroy entity', this._handleDestroy.bind(this));
+
+        sceneMan.on('pointerDown', this._handlePointerDown.bind(this));
+        sceneMan.on('pointerUp', this._handlePointerUp.bind(this));
     } // end EntityManager
 
     /**
@@ -113,6 +116,24 @@ function EntityManagerFactory($injector, _, Promise, socket, avatar, sceneMan, p
     {
         console.error('Destroy Not Implemented! Message:', message);
     }; // end _handleDestroy
+
+    EntityManager.prototype._handlePointerDown = function(evt, pickResult)
+        {
+            var f = _.find(this.entities, function(ent)
+            {
+                return ent.mesh == pickResult.pickedMesh;
+            });
+            console.debug('Found:', f);
+        };
+
+    EntityManager.prototype._handlePointerUp = function(evt, pickResult)
+    {
+        var f = _.find(this.entities, function(ent)
+        {
+            return ent.mesh == pickResult.pickedMesh;
+        });
+        console.debug('UnFound:', f);
+    };
 
     return new EntityManager();
 } // end EntityManagerFactory
