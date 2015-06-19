@@ -39,7 +39,7 @@ angular.module("rfi-client", [
             console.log('connected!');
         });
 
-        //FIXME: This is only for debugging!
+        //FIXME: This is only for debugging purposes!
         window.socket = socket;
     }])
     .run(['$rootScope', 'bluebird', 'ngToast', function($rootScope, Promise, ngToast)
