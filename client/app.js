@@ -12,6 +12,7 @@ angular.module("rfi-client", [
         'ngToast',
         'lodash',
         'bluebird',
+        'make-error',
         'eventemitter2',
         'rfi-physics',
 

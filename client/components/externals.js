@@ -12,5 +12,6 @@ angular.module('bluebird', []).factory('bluebird', ['$window', function($window)
 angular.module('rfi-physics', []).factory('rfi-physics', ['$window', function($window) { return $window.RFIPhysics; }]);
 angular.module('eventemitter2', []).factory('eventemitter2', ['$window', function($window) { return $window.EventEmitter2; }]);
 angular.module('path', []).factory('path', ['$window', function($window) { return $window.path; }]);
+angular.module('make-error', []).factory('makeError', ['$window', function($window) { return $window.makeError; }]);
 
 // ---------------------------------------------------------------------------------------------------------------------
