@@ -18,16 +18,17 @@ Right now, it's able to perform a login with the server, move around, and share 
 
 ## Development
 
-To get started, you will need to install npm modules. Simple do:
+First, you will need to have the [Bower](http://bower.io/) and [Grunt](http://gruntjs.com/) cli tools installed:
 
 ```bash
-$ npm install
+npm install -g bower grunt-cli
 ```
 
-Next you will need to have the [Grunt](http://gruntjs.com/) cli tools installed:
+Next, you will need to install the client and server dependencies. Simply run:
 
 ```bash
-$ npm install -g grunt-cli
+npm install
+bower install
 ```
 
 Now, you can run grunt, and get to developing:
@@ -36,7 +37,7 @@ Now, you can run grunt, and get to developing:
 grunt devel
 ```
 
-This will start a server on [localhost:2695](http://localhost:2695), and setup a watch to rebuild the app. (All files 
+This will start a server on [localhost:2695](http://localhost:2695), and setup a watch to rebuild the app. (All files
 are located in the `dist` folder.)
 
 ### Contributing
