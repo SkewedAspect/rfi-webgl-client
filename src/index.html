@@ -4,6 +4,9 @@
         <meta charset="UTF-8">
         <title>Precursors Client</title>
 
+        <!-- FontAwesome -->
+        <link href="/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+
         <!-- Socket.io -->
         <script src="/vendor/socket.io-client/socket.io.js"></script>
 
@@ -40,6 +43,9 @@
         <link href="/vendor/ngtoast/dist/ngToast-animations.min.css" rel="stylesheet">
         <script src="/vendor/ngtoast/dist/ngToast.min.js"></script>
 
+        <!-- Bootstrap UI -->
+        <script src="/vendor/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+
         <!-- Angular App -->
         <script src="/js/rfi-client.min.js"></script>
 
@@ -48,6 +54,7 @@
         <link rel="stylesheet" href="/css/rfi-client.min.css">
     </head>
     <body>
+        <chat-window></chat-window>
         <login></login>
         <latency></latency>
         <toast></toast>

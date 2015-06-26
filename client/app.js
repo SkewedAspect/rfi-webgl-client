@@ -13,6 +13,7 @@ angular.module("rfi-client", [
         'lodash',
         'bluebird',
         'make-error',
+        'ui.bootstrap',
         'eventemitter2',
         'rfi-physics',
 
