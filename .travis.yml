@@ -8,6 +8,10 @@ before_script:
   - bower install
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
-  
+
 notifications:
-  slack: skewedaspect:zINIXYjK8YSDFl0RMzjYhKYr 
+  slack: skewedaspect:zINIXYjK8YSDFl0RMzjYhKYr
+
+# Turn off `sudo` support in order to use Travis CI's Container-based environment.
+# See http://docs.travis-ci.com/user/ci-environment/#Virtualization-environments
+sudo: false
