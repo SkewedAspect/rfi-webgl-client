@@ -37,8 +37,8 @@ Now, you can run grunt, and get to developing:
 grunt devel
 ```
 
-This will start a server on [localhost:2695](http://localhost:2695), and setup a watch to rebuild the app. (All files
-are located in the `dist` folder.)
+This will start a server on [localhost:2695](http://localhost:2695), and setup a watch to rebuild the app. (built files
+are located in the `dist` folder)
 
 ### Contributing
 
