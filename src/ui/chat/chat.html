@@ -1,10 +1,10 @@
 <tabset id="chat" class="widget container" ng-show="showWindow">
-    <tab ng-repeat="room in rooms" select="state.activeRoom = room">
+    <tab ng-repeat="room in rooms" select="setActive(room)">
         <tab-heading>
             #{{ room }}
-            <span ng-if="$last" class="badge">4</span>
+            <span ng-show="state.activeRoom != room && state[room].unread > 0" class="badge">{{ state[room].unread }}</span>
         </tab-heading>
-        <div class="panel" id="history-box">
+        <div class="panel" id="history-box" scroll-glue="true">
             <table>
                 <tr ng-repeat="message in state[state.activeRoom].history">
                     <td style="width: 1%;">

@@ -16,6 +16,7 @@ angular.module("rfi-client", [
         'ui.bootstrap',
         'eventemitter2',
         'rfi-physics',
+        'luegg.directives',
 
         'rfi-client.utils',
         'rfi-client.controllers',
