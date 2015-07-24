@@ -1,13 +1,14 @@
+# OS artifacts
 .DS_Store
 
 # IntelliJ artifacts
 .idea
 
 # build artifacts
-dist
+client/css
 
 # bower artifacts
-src/vendor
+client/vendor
 
 # Node artifacts
 node_modules
