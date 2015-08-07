@@ -118,7 +118,7 @@ function GameCanvasFactory($window, $timeout, babylon, Promise, sceneMan, keySvc
         scope: true,
         link: GameCanvasLink,
         template: '<div id="game" contenteditable="true">' +
-            '<canvas ng-click="angular.element(this).parent().focus()"></canvas>' +
+            '<canvas ng-click="document.getElementById(\'game\').focus()"></canvas>' +
             '<div class="error" ng-if="!isSupported">Your browser does not support WebGL! Go home!</div></div>',
         controller: ['$scope', GameCanvasController],
         replace: true
