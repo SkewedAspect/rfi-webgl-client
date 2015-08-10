@@ -27,6 +27,16 @@ function GameCanvasFactory($window, $timeout, babylon, Promise, sceneMan, keySvc
 
     function GameCanvasLink(scope, elem, attrs, controller)
     {
+        // -------------------------------------------------------------------------------------------------------------
+
+        scope.focus = function($event)
+        {
+            event.stopPropagation();
+            elem[0].focus();
+        }; // end focus
+
+        // -------------------------------------------------------------------------------------------------------------
+
         if(isSupported)
         {
             console.log("Setting up canvas.");
@@ -117,8 +127,8 @@ function GameCanvasFactory($window, $timeout, babylon, Promise, sceneMan, keySvc
         restrict: 'E',
         scope: true,
         link: GameCanvasLink,
-        template: '<div id="game" contenteditable="true">' +
-            '<canvas ng-click="angular.element(this).parent().focus()"></canvas>' +
+        template: '<div contenteditable="true">' +
+            '<canvas ng-click="focus($event)"></canvas>' +
             '<div class="error" ng-if="!isSupported">Your browser does not support WebGL! Go home!</div></div>',
         controller: ['$scope', GameCanvasController],
         replace: true

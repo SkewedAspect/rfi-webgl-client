@@ -161,6 +161,12 @@ function SceneManagerFactory($rootScope, _, utils, babylon, Promise, EventEmitte
             self.playerCamera = new babylon.ArcRotateCamera("PlayerCamera", 0, 0, 100, babylon.Vector3.Zero(),
                 self.currentScene);
 
+            // Stop binding to keyboard keys
+            self.playerCamera.keysUp = [];
+            self.playerCamera.keysDown = [];
+            self.playerCamera.keysLeft = [];
+            self.playerCamera.keysRight = [];
+
             return new Promise(function(resolve)
             {
                 // Resolve once the scene's ready

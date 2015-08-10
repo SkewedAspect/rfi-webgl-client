@@ -15,25 +15,24 @@ function ConfigurationManagerFactory($rootScope, _, defaultConfig, socket, local
     {
         var self = this;
         socket.makeRequest('get config')
-            .spread(function(results) {
-                if(results.confirm)
-                {
-                    self.configs = results.configs;
+            .then(function(results)
+            {
+                self.configs = results.configs;
 
-                    var defaultConfigID = self.configStore.get('default');
-                    if (defaultConfigID) {
-                        self.setConfig(defaultConfigID);
+                var defaultConfigID = self.configStore.get('default');
+                if(defaultConfigID)
+                {
+                    self.setConfig(defaultConfigID);
+                }
+                else
+                {
+                    if(results[0])
+                    {
+                        self.setConfig(results[0].id);
                     }
                     else
                     {
-                        if (results[0])
-                        {
-                            self.setConfig(results[0].id);
-                        }
-                        else
-                        {
-                            self.setConfig();
-                        } // end if
+                        self.setConfig();
                     } // end if
                 } // end if
             }); // end spread

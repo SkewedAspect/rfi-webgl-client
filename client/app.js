@@ -12,8 +12,11 @@ angular.module("rfi-client", [
         'ngToast',
         'lodash',
         'bluebird',
+        'make-error',
+        'ui.bootstrap',
         'eventemitter2',
         'rfi-physics',
+        'luegg.directives',
 
         'rfi-client.utils',
         'rfi-client.controllers',
@@ -39,7 +42,7 @@ angular.module("rfi-client", [
             console.log('connected!');
         });
 
-        //FIXME: This is only for debugging!
+        //FIXME: This is only for debugging purposes!
         window.socket = socket;
     }])
     .run(['$rootScope', 'bluebird', 'ngToast', function($rootScope, Promise, ngToast)

@@ -8,7 +8,7 @@ module.exports = function(grunt)
     grunt.initConfig({
         project: {
             js: ['client/**/*.js', '!client/vendor/**/*.js'],
-            less: ['client/**/*.less']
+            less: ['client/**/*.less', '!client/vendor/**/*.less']
         },
         less: {
             sleekspace: {

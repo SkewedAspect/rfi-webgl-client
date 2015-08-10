@@ -1,0 +1,26 @@
+<tabset id="chat" class="widget container" ng-show="showWindow">
+    <tab ng-repeat="room in rooms" select="setActive(room.name)">
+        <tab-heading>
+            #{{ room.name }}
+            <span ng-show="activeRoom.name != room.name && room.unread > 0" class="badge">{{ room.unread }}</span>
+        </tab-heading>
+        <div class="panel" id="history-box" scroll-glue="true">
+            <table>
+                <tr ng-repeat="message in room.history">
+                    <td style="width: 1%;">
+                        {{ message.client }}:
+                    </td>
+                    <td style="width: 99%; padding-left: 10px;">
+                        {{ message.message }}
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-comments-o"></i></span>
+                <input type="text" class="form-control" ng-model="room.message" ng-enter="send()">
+            </div>
+        </div>
+    </tab>
+</tabset>
