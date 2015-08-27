@@ -6,11 +6,14 @@
 
 function PhysicalEntityFactory(babylon, rfiPhysics, utils, physics, BaseEntity)
 {
+    function degreesToRadians(degrees)
+    {
+            return degrees * (Math.PI / 180);
+    } // end degreesToRadians
+
     function PhysicalEntity()
     {
         BaseEntity.apply(this, arguments);
-
-        this.body = physics.engine.addBody({ mass: 1 });
 
         // Create a target velocity controller
         this.targetVelocityController = new rfiPhysics.TargetVelocityController(this.body, {
@@ -47,40 +50,55 @@ function PhysicalEntityFactory(babylon, rfiPhysics, utils, physics, BaseEntity)
             }
         });
 
-        Object.defineProperties(this, {
-            targetLinearVelocity: {
-                get: function() { return this.targetVelocityController.targetLinearVelocity; },
-                set: function(linVel)
-                {
-                    this.targetVelocityController.targetLinearVelocity.x = linVel.x;
-                    this.targetVelocityController.targetLinearVelocity.y = linVel.y;
-                    this.targetVelocityController.targetLinearVelocity.z = linVel.z;
-                }
-            },
-            targetAngularVelocity: {
-                get: function() { return this.targetVelocityController.targetAngularVelocity; },
-                set: function(angVel)
-                {
-                    this.targetVelocityController.targetAngularVelocity.x = angVel.x;
-                    this.targetVelocityController.targetAngularVelocity.y = angVel.y;
-                    this.targetVelocityController.targetAngularVelocity.z = angVel.z;
-                }
-            },
-            position: {
-                get: function(){ return this.body.position;},
-                set: function(pos){ this.body.position.set(pos.x, pos.y, pos.z); }
-            },
-            orientation: {
-                get: function(){ return this.body.quaternion; },
-                set: function(orientation){ this.body.quaternion.set(orientation.x, orientation.y, orientation.z, orientation.w); }
-            }
-        });
-
         // Register our update mesh function to the event that fires after physics has completed
         this.body.addEventListener('postStep', this.updateMesh.bind(this));
     } // end PhysicalEntity
 
     utils.inherits(PhysicalEntity, BaseEntity);
+
+    Object.defineProperties(PhysicalEntity.prototype, {
+        body: {
+            get: function()
+            {
+                if(!this._body)
+                {
+                    this._body = physics.engine.addBody({ mass: 1 });
+                } // end if
+                return this._body;
+            }
+        },
+
+        targetLinearVelocity: {
+            get: function() { return this.targetVelocityController.targetLinearVelocity; },
+            set: function(linVel)
+            {
+                this.targetVelocityController.targetLinearVelocity.x = linVel.x;
+                this.targetVelocityController.targetLinearVelocity.y = linVel.y;
+                this.targetVelocityController.targetLinearVelocity.z = linVel.z;
+            }
+        },
+        targetAngularVelocity: {
+            get: function() { return this.targetVelocityController.targetAngularVelocity; },
+            set: function(angVel)
+            {
+                this.targetVelocityController.targetAngularVelocity.x = angVel.x;
+                this.targetVelocityController.targetAngularVelocity.y = angVel.y;
+                this.targetVelocityController.targetAngularVelocity.z = angVel.z;
+            }
+        },
+        position: {
+            get: function(){ return this.body.position;},
+            set: function(pos){ this.body.position.set(pos.x, pos.y, pos.z); }
+        },
+        orientation: {
+            get: function(){ return this.body.quaternion; },
+            set: function(orientation){ this.body.quaternion.set(orientation.x, orientation.y, orientation.z, orientation.w); }
+        },
+        turnRate: {
+            get: function(){ return this._turnRate; },
+            set: function(rate){ this._turnRate = degreesToRadians(rate); }
+        }
+    });
 
     PhysicalEntity.prototype.setMesh = function(mesh)
     {
