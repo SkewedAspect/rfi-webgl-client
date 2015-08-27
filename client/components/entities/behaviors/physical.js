@@ -15,35 +15,35 @@ function PhysicalEntityFactory(babylon, rfiPhysics, utils, physics, BaseEntity)
         // Create a target velocity controller
         this.targetVelocityController = new rfiPhysics.TargetVelocityController(this.body, {
             maxLinearThrust: {
-                x: this.max_speed.x,
-                y: this.max_speed.y,
-                z: this.max_speed.z
+                x: this.maxSpeed.x,
+                y: this.maxSpeed.y,
+                z: this.maxSpeed.z
             },
             linearTargetVelocityScaling: {
-                x: this.max_speed.x,
-                y: this.max_speed.y,
-                z: this.max_speed.z
+                x: this.maxSpeed.x,
+                y: this.maxSpeed.y,
+                z: this.maxSpeed.z
             },
             linearResponsiveness: {
-                x: this.linear_responsiveness.x,
-                y: this.linear_responsiveness.y,
-                z: this.linear_responsiveness.z
+                x: this.linearResponsiveness.x,
+                y: this.linearResponsiveness.y,
+                z: this.linearResponsiveness.z
             },
 
             maxAngularThrust: {
-                x: this.turn_rate,
-                y: this.turn_rate,
-                z: this.turn_rate
+                x: this.turnRate,
+                y: this.turnRate,
+                z: this.turnRate
             },
             angularTargetVelocityScaling: {
-                x: this.turn_rate,
-                y: this.turn_rate,
-                z: this.turn_rate
+                x: this.turnRate,
+                y: this.turnRate,
+                z: this.turnRate
             },
             angularResponsiveness: {
-                x: this.angular_responsiveness.x,
-                y: this.angular_responsiveness.y,
-                z: this.angular_responsiveness.z
+                x: this.angularResponsiveness.x,
+                y: this.angularResponsiveness.y,
+                z: this.angularResponsiveness.z
             }
         });
 
